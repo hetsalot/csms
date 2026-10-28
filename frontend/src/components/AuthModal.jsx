@@ -46,7 +46,19 @@ export default function AuthModal({ onClose, initialMode = 'login' }) {
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error);
-        setSuccessMsg(`Reset code sent! Sample code: ${data.sampleResetCode}`);
+        setSuccessMsg(`Reset code generated! Use code: ${data.sampleResetCode}`);
+        setOtpCode(data.sampleResetCode || '654321');
+        setMode('reset');
+      } else if (mode === 'reset') {
+        const res = await fetch('/api/auth/reset-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, code: otpCode, newPassword: password })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error);
+        setSuccessMsg('Password reset successful! You can now log in.');
+        setMode('login');
       }
     } catch (err) {
       setError(err.message);
@@ -90,6 +102,7 @@ export default function AuthModal({ onClose, initialMode = 'login' }) {
               {mode === 'register' && `Register as ${role === 'driver' ? 'EV Driver' : 'Station Operator'}`}
               {mode === 'verify' && 'Verify Email Verification Code'}
               {mode === 'forgot' && 'Reset Account Password'}
+              {mode === 'reset' && 'Set New Password'}
             </h3>
           </div>
           <button onClick={onClose} style={{ background: 'transparent', border: 'none', color: '#94a3b8', cursor: 'pointer' }}>
@@ -224,9 +237,16 @@ export default function AuthModal({ onClose, initialMode = 'login' }) {
                   <input type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder="driver@evtravel.com" />
                 </div>
 
+                {mode === 'reset' && (
+                  <div style={{ marginBottom: '12px' }}>
+                    <label>6-Digit Reset Code (sample: 654321)</label>
+                    <input type="text" required value={otpCode} onChange={e => setOtpCode(e.target.value)} placeholder="654321" />
+                  </div>
+                )}
+
                 {mode !== 'forgot' && (
                   <div style={{ marginBottom: '16px' }}>
-                    <label>Password</label>
+                    <label>{mode === 'reset' ? 'New Password' : 'Password'}</label>
                     <input type="password" required value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" />
                   </div>
                 )}
@@ -247,7 +267,8 @@ export default function AuthModal({ onClose, initialMode = 'login' }) {
               {loading ? 'Processing...' : (
                 mode === 'login' ? 'Sign In' :
                 mode === 'register' ? 'Register Account' :
-                mode === 'verify' ? 'Verify & Activate' : 'Send Reset Link'
+                mode === 'verify' ? 'Verify & Activate' : 
+                mode === 'reset' ? 'Save New Password' : 'Send Reset Link'
               )}
             </button>
           </form>

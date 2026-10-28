@@ -7,6 +7,7 @@
     "seed": "cd backend && node seed.js",
     "server": "cd backend && node server.js",
     "client": "cd frontend && npm run dev",
+    "supabase:sync": "cd backend && node sync-to-supabase.js",
     "start": "node -e \"const { spawn } = require('child_process'); spawn('node', ['server.js'], { cwd: './backend', stdio: 'inherit' }); spawn('npm', ['run', 'dev'], { cwd: './frontend', stdio: 'inherit', shell: true });\""
   },
   "keywords": ["ev", "csms", "ocpp", "charging-stations", "react", "sqlite", "express"],

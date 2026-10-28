@@ -48,7 +48,10 @@ export default function MapView({
     }
 
     return () => {
-      // Map cleanup handled on full unmount
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.remove();
+        mapInstanceRef.current = null;
+      }
     };
   }, []);
 

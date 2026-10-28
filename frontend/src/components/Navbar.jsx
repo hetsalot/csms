@@ -57,7 +57,7 @@ export default function Navbar({
 
         {/* Center Nav Links according to active user role */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          {role === 'driver' && (
+          {(role === 'driver' || role === 'guest') && (
             <>
               <button
                 onClick={() => onNavigate('finder')}
@@ -74,36 +74,40 @@ export default function Navbar({
               >
                 Find Stations
               </button>
-              <button
-                onClick={() => onNavigate('bookings')}
-                style={{
-                  background: currentView === 'bookings' ? 'rgba(255, 255, 255, 0.08)' : 'transparent',
-                  color: currentView === 'bookings' ? '#34d399' : '#cbd5e1',
-                  border: 'none',
-                  padding: '8px 14px',
-                  borderRadius: '8px',
-                  fontWeight: 600,
-                  fontSize: '0.9rem',
-                  cursor: 'pointer'
-                }}
-              >
-                My Bookings & History
-              </button>
-              <button
-                onClick={() => onNavigate('garage')}
-                style={{
-                  background: currentView === 'garage' ? 'rgba(255, 255, 255, 0.08)' : 'transparent',
-                  color: currentView === 'garage' ? '#34d399' : '#cbd5e1',
-                  border: 'none',
-                  padding: '8px 14px',
-                  borderRadius: '8px',
-                  fontWeight: 600,
-                  fontSize: '0.9rem',
-                  cursor: 'pointer'
-                }}
-              >
-                EV Garage & Cards
-              </button>
+              {user && (
+                <>
+                  <button
+                    onClick={() => onNavigate('bookings')}
+                    style={{
+                      background: currentView === 'bookings' ? 'rgba(255, 255, 255, 0.08)' : 'transparent',
+                      color: currentView === 'bookings' ? '#34d399' : '#cbd5e1',
+                      border: 'none',
+                      padding: '8px 14px',
+                      borderRadius: '8px',
+                      fontWeight: 600,
+                      fontSize: '0.9rem',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    My Bookings & History
+                  </button>
+                  <button
+                    onClick={() => onNavigate('garage')}
+                    style={{
+                      background: currentView === 'garage' ? 'rgba(255, 255, 255, 0.08)' : 'transparent',
+                      color: currentView === 'garage' ? '#34d399' : '#cbd5e1',
+                      border: 'none',
+                      padding: '8px 14px',
+                      borderRadius: '8px',
+                      fontWeight: 600,
+                      fontSize: '0.9rem',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    EV Garage & Cards
+                  </button>
+                </>
+              )}
             </>
           )}
 
@@ -191,6 +195,17 @@ export default function Navbar({
           >
             <HelpCircle size={16} />
           </button>
+
+          {/* Sign In button for guests */}
+          {!user && (
+            <button
+              onClick={onOpenAuth}
+              className="btn-primary"
+              style={{ padding: '7px 14px', fontSize: '0.85rem' }}
+            >
+              Sign In
+            </button>
+          )}
 
           {/* Role Switcher Dropdown */}
           <div style={{ position: 'relative' }}>

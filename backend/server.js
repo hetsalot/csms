@@ -1,9 +1,11 @@
+require('dotenv').config();
 const http = require('http');
 const express = require('express');
 const cors = require('cors');
 const { WebSocketServer, WebSocket } = require('ws');
 const { setWsBroadcaster } = require('./utils');
 const { ocppServer } = require('./ocppServer');
+const { isSupabaseConfigured } = require('./supabaseClient');
 
 // Routes
 const authRoutes = require('./routes/auth');
@@ -88,6 +90,6 @@ server.listen(PORT, () => {
   console.log(` Port: ${PORT}`);
   console.log(` REST API: http://localhost:${PORT}/api`);
   console.log(` Live UI WebSocket: ws://localhost:${PORT}/ws`);
-  console.log(` OCPP 2.0.1 WebSocket: ws://localhost:${PORT}/ocpp/v201`);
+  console.log(` Database: SQLite (csms.db) ${isSupabaseConfigured() ? '+ Supabase Connected' : '(Ready for Supabase sync)'}`);
   console.log(`====================================================`);
 });
