@@ -93,6 +93,16 @@ export default function VehiclesAndPayments() {
     }
   };
 
+  const handleSetDefaultPayment = async (id) => {
+    try {
+      const res = await authFetch(`/api/auth/payment-methods/${id}/default`, { method: 'PUT' });
+      if (!res.ok) throw new Error('Failed to set default payment method');
+      loadData();
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
   return (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
       
@@ -209,12 +219,35 @@ export default function VehiclesAndPayments() {
                     </div>
                   </div>
                 </div>
-                <button
-                  onClick={() => handleDeletePayment(pm.id)}
-                  style={{ background: 'transparent', border: 'none', color: '#64748b', cursor: 'pointer', padding: '6px' }}
-                >
-                  <Trash2 size={16} />
-                </button>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  {pm.is_default !== 1 && (
+                    <button
+                      onClick={() => handleSetDefaultPayment(pm.id)}
+                      style={{
+                        background: 'rgba(255, 255, 255, 0.06)',
+                        border: '1px solid rgba(255, 255, 255, 0.12)',
+                        color: '#cbd5e1',
+                        borderRadius: '6px',
+                        padding: '4px 10px',
+                        fontSize: '0.72rem',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease'
+                      }}
+                      onMouseEnter={e => e.currentTarget.style.background = 'rgba(16, 185, 129, 0.15)'}
+                      onMouseLeave={e => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.06)'}
+                      title="Set as default payment method"
+                    >
+                      Make Default
+                    </button>
+                  )}
+                  <button
+                    onClick={() => handleDeletePayment(pm.id)}
+                    style={{ background: 'transparent', border: 'none', color: '#64748b', cursor: 'pointer', padding: '6px' }}
+                    title="Remove payment method"
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                </div>
               </div>
             ))}
           </div>

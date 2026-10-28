@@ -241,6 +241,30 @@ router.post('/vehicles', authenticateToken, (req, res) => {
   }
 });
 
+router.put('/vehicles/:id', authenticateToken, (req, res) => {
+  try {
+    const { make, model, connectorType, batteryCapacity } = req.body;
+    db.prepare(`
+      UPDATE vehicles 
+      SET make = COALESCE(?, make),
+          model = COALESCE(?, model),
+          connector_type = COALESCE(?, connector_type),
+          battery_capacity = COALESCE(?, battery_capacity)
+      WHERE id = ? AND driver_id = ?
+    `).run(
+      make || null,
+      model || null,
+      connectorType || null,
+      batteryCapacity ? parseFloat(batteryCapacity) : null,
+      req.params.id,
+      req.user.id
+    );
+    res.json({ message: 'Vehicle updated successfully' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update vehicle' });
+  }
+});
+
 router.delete('/vehicles/:id', authenticateToken, (req, res) => {
   try {
     db.prepare('DELETE FROM vehicles WHERE id = ? AND driver_id = ?').run(req.params.id, req.user.id);
@@ -283,6 +307,18 @@ router.post('/payment-methods', authenticateToken, (req, res) => {
     res.status(201).json({ message: 'Payment method saved securely', id });
   } catch (err) {
     res.status(500).json({ error: 'Failed to add payment method' });
+  }
+});
+
+router.put('/payment-methods/:id/default', authenticateToken, (req, res) => {
+  try {
+    // Unset current default
+    db.prepare('UPDATE payment_methods SET is_default = 0 WHERE driver_id = ?').run(req.user.id);
+    // Set selected as default
+    db.prepare('UPDATE payment_methods SET is_default = 1 WHERE id = ? AND driver_id = ?').run(req.params.id, req.user.id);
+    res.json({ message: 'Default payment method updated' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to set default payment method' });
   }
 });
 

@@ -36,6 +36,12 @@ export default function OperatorDashboard() {
   const [editIdleFee, setEditIdleFee] = useState('');
   const [editStatus, setEditStatus] = useState('');
 
+  // Edit Station Modal state
+  const [editingStation, setEditingStation] = useState(null);
+  const [editStnName, setEditStnName] = useState('');
+  const [editStnAddress, setEditStnAddress] = useState('');
+  const [editStnHours, setEditStnHours] = useState('');
+
   const loadOperatorData = async () => {
     try {
       setLoading(true);
@@ -149,6 +155,42 @@ export default function OperatorDashboard() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed to delete station');
       alert('Station deleted successfully');
+      loadOperatorData();
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+  // Station.Update
+  const handleUpdateStation = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await authFetch(`/api/stations/${editingStation.id}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+          name: editStnName,
+          address: editStnAddress,
+          operatingHours: editStnHours
+        })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to update station');
+      alert(data.message);
+      setEditingStation(null);
+      loadOperatorData();
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+  // Station.Charger.Delete
+  const handleDeleteCharger = async (chargerId) => {
+    if (!window.confirm('Delete this charger? It must have no active or confirmed future bookings.')) return;
+    try {
+      const res = await authFetch(`/api/stations/chargers/${chargerId}`, { method: 'DELETE' });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to delete charger');
+      alert(data.message);
       loadOperatorData();
     } catch (err) {
       alert(err.message);
@@ -311,6 +353,20 @@ export default function OperatorDashboard() {
                   <div style={{ display: 'flex', gap: '8px' }}>
                     <button
                       onClick={() => {
+                        setEditingStation(stn);
+                        setEditStnName(stn.name);
+                        setEditStnAddress(stn.address);
+                        setEditStnHours(stn.operating_hours || '24/7');
+                      }}
+                      className="btn-secondary"
+                      style={{ padding: '6px 12px', fontSize: '0.8rem' }}
+                      title="Edit Station details (Station.Edit)"
+                    >
+                      <Edit size={14} />
+                      <span>Edit Station</span>
+                    </button>
+                    <button
+                      onClick={() => {
                         setActiveStationForCharger(stn);
                         setChargerName(`${stn.name.split(' ')[0]} - Bay ${stn.chargers.length + 1}`);
                       }}
@@ -423,6 +479,15 @@ export default function OperatorDashboard() {
                           title="Simulate 90s heartbeat loss (Monitor.Status.Timeout)"
                         >
                           ⏱ Timeout (90s)
+                        </button>
+
+                        <button
+                          onClick={() => handleDeleteCharger(chg.id)}
+                          style={{ background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.25)', color: '#f87171', padding: '4px 8px', borderRadius: '4px', fontSize: '0.7rem', cursor: 'pointer' }}
+                          title="Delete charger (Station.Charger.Delete)"
+                        >
+                          <Trash2 size={12} style={{ display: 'inline', marginRight: '2px', verticalAlign: 'middle' }} />
+                          Del
                         </button>
                       </div>
                     </div>
@@ -702,6 +767,54 @@ export default function OperatorDashboard() {
                 </div>
               )}
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Station Modal */}
+      {editingStation && (
+        <div className="modal-overlay" onClick={() => setEditingStation(null)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: '480px' }}>
+            <div style={{ padding: '18px 24px', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between' }}>
+              <h3 style={{ fontSize: '1.2rem', color: '#f8fafc' }}>Edit Station (Station.Edit)</h3>
+              <button onClick={() => setEditingStation(null)} style={{ background: 'transparent', border: 'none', color: '#94a3b8', cursor: 'pointer' }}>✕</button>
+            </div>
+            <form onSubmit={handleUpdateStation} style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', color: '#94a3b8', marginBottom: '6px' }}>Station Name</label>
+                <input
+                  type="text"
+                  required
+                  value={editStnName}
+                  onChange={e => setEditStnName(e.target.value)}
+                  className="input-field"
+                />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', color: '#94a3b8', marginBottom: '6px' }}>Physical Address</label>
+                <input
+                  type="text"
+                  required
+                  value={editStnAddress}
+                  onChange={e => setEditStnAddress(e.target.value)}
+                  className="input-field"
+                />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', color: '#94a3b8', marginBottom: '6px' }}>Operating Hours</label>
+                <input
+                  type="text"
+                  required
+                  value={editStnHours}
+                  onChange={e => setEditStnHours(e.target.value)}
+                  className="input-field"
+                />
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '10px' }}>
+                <button type="button" onClick={() => setEditingStation(null)} className="btn-secondary">Cancel</button>
+                <button type="submit" className="btn-primary">Save Changes</button>
+              </div>
+            </form>
           </div>
         </div>
       )}

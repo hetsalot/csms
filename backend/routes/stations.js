@@ -232,6 +232,57 @@ router.post('/', authenticateToken, requireRole('operator', 'admin'), (req, res)
   }
 });
 
+// Station.Update
+router.put('/:id', authenticateToken, requireRole('operator', 'admin'), (req, res) => {
+  try {
+    const stationId = req.params.id;
+    const { name, address, latitude, longitude, operatingHours, amenities } = req.body;
+
+    const station = db.prepare('SELECT * FROM stations WHERE id = ?').get(stationId);
+    if (!station) return res.status(404).json({ error: 'Station not found' });
+
+    if (req.user.role !== 'admin' && station.operator_id !== req.user.id) {
+      return res.status(403).json({ error: 'Unauthorized to update this station' });
+    }
+
+    db.prepare(`
+      UPDATE stations 
+      SET name = COALESCE(?, name),
+          address = COALESCE(?, address),
+          latitude = COALESCE(?, latitude),
+          longitude = COALESCE(?, longitude),
+          operating_hours = COALESCE(?, operating_hours),
+          amenities = COALESCE(?, amenities)
+      WHERE id = ?
+    `).run(
+      name || null,
+      address || null,
+      latitude !== undefined && latitude !== '' ? parseFloat(latitude) : null,
+      longitude !== undefined && longitude !== '' ? parseFloat(longitude) : null,
+      operatingHours || null,
+      amenities ? (typeof amenities === 'string' ? amenities : JSON.stringify(amenities)) : null,
+      stationId
+    );
+
+    logAudit({
+      userId: req.user.id,
+      userName: req.user.name,
+      userRole: req.user.role,
+      action: 'STATION_UPDATED',
+      targetType: 'station',
+      targetId: stationId,
+      details: `Station "${name || station.name}" updated`
+    });
+
+    broadcastEvent('STATION_UPDATED', { stationId });
+
+    res.json({ message: 'Station updated successfully' });
+  } catch (err) {
+    console.error('Update station error:', err);
+    res.status(500).json({ error: 'Failed to update station' });
+  }
+});
+
 // Station.Charger.Add
 router.post('/:id/chargers', authenticateToken, requireRole('operator', 'admin'), (req, res) => {
   try {
@@ -345,6 +396,48 @@ router.put('/chargers/:id', authenticateToken, requireRole('operator', 'admin'),
     });
   } catch (err) {
     res.status(500).json({ error: 'Failed to update charger' });
+  }
+});
+
+// Station.Charger.Delete
+router.delete('/chargers/:id', authenticateToken, requireRole('operator', 'admin'), (req, res) => {
+  try {
+    const chargerId = req.params.id;
+    const charger = db.prepare('SELECT c.*, s.operator_id, s.name as station_name FROM chargers c JOIN stations s ON c.station_id = s.id WHERE c.id = ?').get(chargerId);
+    if (!charger) return res.status(404).json({ error: 'Charger not found' });
+
+    if (req.user.role !== 'admin' && charger.operator_id !== req.user.id) {
+      return res.status(403).json({ error: 'Unauthorized to delete this charger' });
+    }
+
+    const activeBookings = db.prepare(`
+      SELECT count(*) as count FROM bookings 
+      WHERE charger_id = ? AND status IN ('confirmed', 'in-progress')
+    `).get(chargerId);
+
+    if (activeBookings.count > 0) {
+      return res.status(400).json({
+        error: `Cannot delete charger: There are ${activeBookings.count} active or confirmed future booking(s).`
+      });
+    }
+
+    db.prepare('DELETE FROM chargers WHERE id = ?').run(chargerId);
+    broadcastEvent('CHARGER_DELETED', { chargerId, stationId: charger.station_id });
+
+    logAudit({
+      userId: req.user.id,
+      userName: req.user.name,
+      userRole: req.user.role,
+      action: 'CHARGER_DELETED',
+      targetType: 'charger',
+      targetId: chargerId,
+      details: `Charger "${charger.name}" removed from ${charger.station_name}`
+    });
+
+    res.json({ message: 'Charger deleted successfully' });
+  } catch (err) {
+    console.error('Delete charger error:', err);
+    res.status(500).json({ error: 'Failed to delete charger' });
   }
 });
 

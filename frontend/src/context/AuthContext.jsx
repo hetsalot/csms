@@ -8,14 +8,14 @@ export const DEMO_PRESETS = [
     email: 'driver@evtravel.com',
     password: 'Driver@123',
     role: 'driver',
-    desc: 'EV Driver with registered Tesla & Hyundai'
+    desc: 'EV Driver with Tesla Model 3 & Hyundai Ioniq 5'
   },
   {
     label: 'Driver (Siddh Sakariya)',
     email: 'siddh@example.com',
     password: 'Driver@123',
     role: 'driver',
-    desc: 'Project Lead with Tata Nexon EV'
+    desc: 'Project Lead with Tata Nexon & Punch EV'
   },
   {
     label: 'Driver (Het Salot)',
@@ -25,18 +25,32 @@ export const DEMO_PRESETS = [
     desc: 'Project Co-Author with MG ZS & Mahindra'
   },
   {
+    label: 'Driver (Priya Sharma)',
+    email: 'priya@evtravel.com',
+    password: 'Driver@123',
+    role: 'driver',
+    desc: 'EV Driver with Kia EV6 & BMW i4'
+  },
+  {
     label: 'Station Operator (VoltCharge Networks)',
     email: 'operator@chargehub.com',
     password: 'Operator@123',
     role: 'operator',
-    desc: 'Approved Station Operator managing 4 hubs'
+    desc: 'Approved Station Operator managing 5 charging hubs'
   },
   {
     label: 'Station Operator (GreenPower - Pending)',
     email: 'greenpower@ev.org',
     password: 'Operator@123',
     role: 'operator',
-    desc: 'Pending Approval (test admin review)'
+    desc: 'Pending Approval (test Admin approval workflow)'
+  },
+  {
+    label: 'Station Operator (Zenith Hubs)',
+    email: 'zenith@gridtech.in',
+    password: 'Operator@123',
+    role: 'operator',
+    desc: 'Operator managing Lower Parel Phoenix SpeedHub'
   },
   {
     label: 'System Administrator',

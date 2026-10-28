@@ -28,10 +28,22 @@ export default function AdminDashboard() {
         authFetch('/api/admin/audit-logs?limit=100')
       ]);
 
-      setOverview(await ovRes.json());
-      setUsersList(await uRes.json() || []);
-      setStationsList(await sRes.json() || []);
-      setAuditLogs(await aRes.json() || []);
+      if (ovRes.ok) {
+        const ovData = await ovRes.json();
+        if (ovData && ovData.users) setOverview(ovData);
+      }
+      if (uRes.ok) {
+        const uData = await uRes.json();
+        setUsersList(Array.isArray(uData) ? uData : []);
+      }
+      if (sRes.ok) {
+        const sData = await sRes.json();
+        setStationsList(Array.isArray(sData) ? sData : []);
+      }
+      if (aRes.ok) {
+        const aData = await aRes.json();
+        setAuditLogs(Array.isArray(aData) ? aData : []);
+      }
     } catch (err) {
       console.error('Failed to load admin data:', err);
     } finally {
@@ -106,7 +118,8 @@ export default function AdminDashboard() {
   };
 
   // Filtered users
-  const filteredUsers = usersList.filter(u => {
+  const safeUsers = Array.isArray(usersList) ? usersList : [];
+  const filteredUsers = safeUsers.filter(u => {
     if (userRoleFilter && u.role !== userRoleFilter) return false;
     if (userSearch) {
       const q = userSearch.toLowerCase();
@@ -171,7 +184,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* TAB 1: Platform Overview & System Health */}
-      {activeTab === 'overview' && overview && (
+      {activeTab === 'overview' && overview && overview.users && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           
           {/* Top KPI Cards */}
@@ -183,17 +196,17 @@ export default function AdminDashboard() {
             <div className="glass-panel" style={{ padding: '20px' }}>
               <span style={{ fontSize: '0.8rem', color: '#94a3b8' }}>Total Users</span>
               <div style={{ fontSize: '1.9rem', fontWeight: 800, color: '#f8fafc', marginTop: '4px' }}>
-                {overview.users.total}
+                {overview?.users?.total ?? 0}
               </div>
               <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: '4px' }}>
-                {overview.users.drivers} Drivers • {overview.users.operators} Operators ({overview.users.pendingOperators} Pending)
+                {overview?.users?.drivers ?? 0} Drivers • {overview?.users?.operators ?? 0} Operators ({overview?.users?.pendingOperators ?? 0} Pending)
               </div>
             </div>
 
             <div className="glass-panel" style={{ padding: '20px' }}>
               <span style={{ fontSize: '0.8rem', color: '#38bdf8' }}>Concurrent Users (Peak Window)</span>
               <div style={{ fontSize: '1.9rem', fontWeight: 800, color: '#38bdf8', marginTop: '4px' }}>
-                ~{overview.concurrentUsersEstimate}
+                ~{overview?.concurrentUsersEstimate ?? 0}
               </div>
               <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: '4px' }}>
                 Target: &gt;2,000 capacity (PE-1)
@@ -203,20 +216,20 @@ export default function AdminDashboard() {
             <div className="glass-panel" style={{ padding: '20px' }}>
               <span style={{ fontSize: '0.8rem', color: '#10b981' }}>Total Revenue Captured</span>
               <div style={{ fontSize: '1.9rem', fontWeight: 800, color: '#10b981', marginTop: '4px' }}>
-                ₹{overview.financials.totalRevenue.toFixed(2)}
+                ₹{overview?.financials?.totalRevenue ? Number(overview.financials.totalRevenue).toFixed(2) : '0.00'}
               </div>
               <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: '4px' }}>
-                {overview.bookings.total} lifetime bookings
+                {overview?.bookings?.total ?? 0} lifetime bookings
               </div>
             </div>
 
             <div className="glass-panel" style={{ padding: '20px' }}>
               <span style={{ fontSize: '0.8rem', color: '#f59e0b' }}>Stations & Infrastructure</span>
               <div style={{ fontSize: '1.9rem', fontWeight: 800, color: '#f8fafc', marginTop: '4px' }}>
-                {overview.stations.approved} Approved
+                {overview?.stations?.approved ?? 0} Approved
               </div>
               <div style={{ fontSize: '0.75rem', color: '#f59e0b', marginTop: '4px' }}>
-                {overview.stations.pending} pending approval
+                {overview?.stations?.pending ?? 0} pending approval
               </div>
             </div>
           </div>
@@ -227,7 +240,7 @@ export default function AdminDashboard() {
               Charging Infrastructure Status (OCPP 2.0.1 Health)
             </h3>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '12px' }}>
-              {overview.chargers.byStatus.map(st => (
+              {(overview?.chargers?.byStatus || []).map(st => (
                 <div key={st.status} style={{
                   padding: '14px',
                   borderRadius: '10px',
