@@ -134,22 +134,22 @@ export default function AdminDashboard() {
       {/* Top Banner */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '14px' }}>
         <div>
-          <span style={{ fontSize: '0.8rem', color: '#f59e0b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+          <span style={{ fontSize: '0.8rem', color: 'var(--primary)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
             System Administrator Oversight
           </span>
-          <h2 style={{ fontSize: '1.5rem', color: '#f8fafc', marginTop: '2px' }}>
+          <h2 style={{ fontSize: '1.6rem', color: 'var(--text-heading)', marginTop: '2px', fontWeight: 800 }}>
             CSMS Central Command & Governance Portal
           </h2>
         </div>
 
-        <button onClick={loadAdminData} className="btn-secondary" style={{ padding: '8px 14px' }}>
+        <button onClick={loadAdminData} className="btn-secondary" style={{ padding: '10px 16px' }}>
           <RefreshCw size={16} />
           <span>Refresh Data</span>
         </button>
       </div>
 
-      {/* Tabs Bar */}
-      <div style={{ display: 'flex', gap: '8px', borderBottom: '1px solid rgba(255, 255, 255, 0.08)', paddingBottom: '8px' }}>
+      {/* Tabs Bar - Neumorphic Segmented Track */}
+      <div className="neu-segmented-track" style={{ alignSelf: 'flex-start', flexWrap: 'wrap', maxWidth: '100%' }}>
         {[
           { key: 'overview', label: 'Platform Analytics', icon: Activity },
           { key: 'users', label: `Users & Approvals (${usersList.length})`, icon: Users },
@@ -157,23 +157,18 @@ export default function AdminDashboard() {
           { key: 'audit', label: `Audit Trail Logs (SE-6)`, icon: FileText }
         ].map(tab => {
           const Icon = tab.icon;
+          const isActive = activeTab === tab.key;
           return (
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
+              className={`neu-segmented-item ${isActive ? 'active' : ''}`}
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                background: activeTab === tab.key ? 'rgba(16, 185, 129, 0.15)' : 'transparent',
-                color: activeTab === tab.key ? '#34d399' : '#94a3b8',
-                border: activeTab === tab.key ? '1px solid rgba(16, 185, 129, 0.3)' : '1px solid transparent',
-                borderRadius: '8px',
-                padding: '8px 16px',
-                fontFamily: 'var(--font-heading)',
-                fontWeight: 600,
-                fontSize: '0.9rem',
-                cursor: 'pointer'
+                padding: '9px 18px',
+                fontSize: '0.85rem'
               }}
             >
               <Icon size={16} />
@@ -185,70 +180,70 @@ export default function AdminDashboard() {
 
       {/* TAB 1: Platform Overview & System Health */}
       {activeTab === 'overview' && overview && overview.users && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           
           {/* Top KPI Cards */}
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-            gap: '14px'
+            gap: '16px'
           }}>
-            <div className="glass-panel" style={{ padding: '20px' }}>
-              <span style={{ fontSize: '0.8rem', color: '#94a3b8' }}>Total Users</span>
-              <div style={{ fontSize: '1.9rem', fontWeight: 800, color: '#f8fafc', marginTop: '4px' }}>
+            <div className="glass-panel" style={{ padding: '22px' }}>
+              <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 600 }}>Total Users</span>
+              <div style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--text-heading)', marginTop: '6px' }}>
                 {overview?.users?.total ?? 0}
               </div>
-              <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: '4px' }}>
+              <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '4px' }}>
                 {overview?.users?.drivers ?? 0} Drivers • {overview?.users?.operators ?? 0} Operators ({overview?.users?.pendingOperators ?? 0} Pending)
               </div>
             </div>
 
-            <div className="glass-panel" style={{ padding: '20px' }}>
-              <span style={{ fontSize: '0.8rem', color: '#38bdf8' }}>Concurrent Users (Peak Window)</span>
-              <div style={{ fontSize: '1.9rem', fontWeight: 800, color: '#38bdf8', marginTop: '4px' }}>
+            <div className="glass-panel" style={{ padding: '22px' }}>
+              <span style={{ fontSize: '0.8rem', color: 'var(--primary)', fontWeight: 600 }}>Concurrent Users (Peak Window)</span>
+              <div style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--primary)', marginTop: '6px' }}>
                 ~{overview?.concurrentUsersEstimate ?? 0}
               </div>
-              <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: '4px' }}>
+              <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '4px' }}>
                 Target: &gt;2,000 capacity (PE-1)
               </div>
             </div>
 
-            <div className="glass-panel" style={{ padding: '20px' }}>
-              <span style={{ fontSize: '0.8rem', color: '#10b981' }}>Total Revenue Captured</span>
-              <div style={{ fontSize: '1.9rem', fontWeight: 800, color: '#10b981', marginTop: '4px' }}>
+            <div className="glass-panel" style={{ padding: '22px' }}>
+              <span style={{ fontSize: '0.8rem', color: '#15803d', fontWeight: 600 }}>Total Revenue Captured</span>
+              <div style={{ fontSize: '2rem', fontWeight: 800, color: '#15803d', marginTop: '6px' }}>
                 ₹{overview?.financials?.totalRevenue ? Number(overview.financials.totalRevenue).toFixed(2) : '0.00'}
               </div>
-              <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: '4px' }}>
+              <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '4px' }}>
                 {overview?.bookings?.total ?? 0} lifetime bookings
               </div>
             </div>
 
-            <div className="glass-panel" style={{ padding: '20px' }}>
-              <span style={{ fontSize: '0.8rem', color: '#f59e0b' }}>Stations & Infrastructure</span>
-              <div style={{ fontSize: '1.9rem', fontWeight: 800, color: '#f8fafc', marginTop: '4px' }}>
+            <div className="glass-panel" style={{ padding: '22px' }}>
+              <span style={{ fontSize: '0.8rem', color: '#b45309', fontWeight: 600 }}>Stations & Infrastructure</span>
+              <div style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--text-heading)', marginTop: '6px' }}>
                 {overview?.stations?.approved ?? 0} Approved
               </div>
-              <div style={{ fontSize: '0.75rem', color: '#f59e0b', marginTop: '4px' }}>
+              <div style={{ fontSize: '0.8rem', color: '#b45309', marginTop: '4px', fontWeight: 600 }}>
                 {overview?.stations?.pending ?? 0} pending approval
               </div>
             </div>
           </div>
 
           {/* Infrastructure Health Status */}
-          <div className="glass-panel" style={{ padding: '24px' }}>
-            <h3 style={{ fontSize: '1.15rem', color: '#f8fafc', marginBottom: '16px' }}>
+          <div className="glass-panel" style={{ padding: '26px' }}>
+            <h3 style={{ fontSize: '1.25rem', color: 'var(--text-heading)', fontWeight: 800, marginBottom: '18px' }}>
               Charging Infrastructure Status (OCPP 2.0.1 Health)
             </h3>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '12px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '14px' }}>
               {(overview?.chargers?.byStatus || []).map(st => (
                 <div key={st.status} style={{
-                  padding: '14px',
-                  borderRadius: '10px',
-                  background: 'rgba(255, 255, 255, 0.02)',
-                  border: '1px solid var(--border-color)'
+                  padding: '16px',
+                  borderRadius: '14px',
+                  background: 'var(--bg-sunken)',
+                  boxShadow: 'var(--neu-sunken-sm)'
                 }}>
                   <span className={`status-badge ${st.status}`}>● {st.status}</span>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#f8fafc', marginTop: '8px' }}>
+                  <div style={{ fontSize: '1.6rem', fontWeight: 800, color: 'var(--text-heading)', marginTop: '10px' }}>
                     {st.count}
                   </div>
                 </div>
@@ -261,12 +256,12 @@ export default function AdminDashboard() {
 
       {/* TAB 2: Users & Operator Approvals (Account.Register.Operator & Account.Deactivate) */}
       {activeTab === 'users' && (
-        <div className="glass-panel" style={{ padding: '24px' }}>
+        <div className="glass-panel" style={{ padding: '26px' }}>
           
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px', flexWrap: 'wrap', gap: '12px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '14px' }}>
             <div>
-              <h3 style={{ fontSize: '1.2rem', color: '#f8fafc' }}>User Accounts Management</h3>
-              <p style={{ fontSize: '0.8rem', color: '#94a3b8' }}>
+              <h3 style={{ fontSize: '1.25rem', color: 'var(--text-heading)', fontWeight: 800 }}>User Accounts Management</h3>
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '3px' }}>
                 Review registered Drivers, Station Operators, and System Admins. Deactivation prevents login and cancels pending bookings (Account.Deactivate).
               </p>
             </div>
@@ -277,12 +272,12 @@ export default function AdminDashboard() {
                 placeholder="Search by name, email..."
                 value={userSearch}
                 onChange={e => setUserSearch(e.target.value)}
-                style={{ width: '220px', padding: '8px 12px', fontSize: '0.85rem' }}
+                style={{ width: '220px', padding: '9px 14px', fontSize: '0.85rem' }}
               />
               <select
                 value={userRoleFilter}
                 onChange={e => setUserRoleFilter(e.target.value)}
-                style={{ width: '140px', padding: '8px 12px', fontSize: '0.85rem' }}
+                style={{ width: '150px', padding: '9px 14px', fontSize: '0.85rem' }}
               >
                 <option value="">All Roles</option>
                 <option value="driver">Drivers</option>
@@ -292,54 +287,54 @@ export default function AdminDashboard() {
             </div>
           </div>
 
-          <div style={{ overflowX: 'auto' }}>
+          <div style={{ overflowX: 'auto', background: 'var(--bg-sunken)', borderRadius: '16px', padding: '12px', boxShadow: 'var(--neu-sunken-sm)' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem' }}>
               <thead>
-                <tr style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.1)', color: '#94a3b8', textAlign: 'left' }}>
-                  <th style={{ padding: '10px 8px' }}>User / Organization</th>
-                  <th style={{ padding: '10px 8px' }}>Role</th>
-                  <th style={{ padding: '10px 8px' }}>Contact</th>
-                  <th style={{ padding: '10px 8px' }}>Status</th>
-                  <th style={{ padding: '10px 8px', textAlign: 'right' }}>Administrative Actions</th>
+                <tr style={{ borderBottom: '2px solid rgba(0, 0, 0, 0.08)', color: 'var(--text-muted)', textAlign: 'left', fontWeight: 700 }}>
+                  <th style={{ padding: '12px 10px' }}>User / Organization</th>
+                  <th style={{ padding: '12px 10px' }}>Role</th>
+                  <th style={{ padding: '12px 10px' }}>Contact</th>
+                  <th style={{ padding: '12px 10px' }}>Status</th>
+                  <th style={{ padding: '12px 10px', textAlign: 'right' }}>Administrative Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredUsers.map(u => (
-                  <tr key={u.id} style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.05)' }}>
-                    <td style={{ padding: '12px 8px' }}>
-                      <strong style={{ color: '#f8fafc' }}>{u.name}</strong>
+                  <tr key={u.id} style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.05)' }}>
+                    <td style={{ padding: '14px 10px' }}>
+                      <strong style={{ color: 'var(--text-heading)', fontSize: '0.95rem' }}>{u.name}</strong>
                       {u.organization_name && (
-                        <div style={{ fontSize: '0.75rem', color: '#38bdf8' }}>{u.organization_name}</div>
+                        <div style={{ fontSize: '0.8rem', color: 'var(--primary)', fontWeight: 600 }}>{u.organization_name}</div>
                       )}
-                      <div style={{ fontSize: '0.75rem', color: '#64748b' }}>{u.id}</div>
+                      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{u.id}</div>
                     </td>
-                    <td style={{ padding: '12px 8px', textTransform: 'capitalize', color: '#cbd5e1' }}>
+                    <td style={{ padding: '14px 10px', textTransform: 'capitalize', color: 'var(--text-body)', fontWeight: 600 }}>
                       {u.role}
                     </td>
-                    <td style={{ padding: '12px 8px', color: '#94a3b8' }}>
-                      <div>{u.email}</div>
-                      <div style={{ fontSize: '0.75rem' }}>{u.phone}</div>
+                    <td style={{ padding: '14px 10px', color: 'var(--text-muted)' }}>
+                      <div style={{ color: 'var(--text-body)' }}>{u.email}</div>
+                      <div style={{ fontSize: '0.8rem' }}>{u.phone}</div>
                     </td>
-                    <td style={{ padding: '12px 8px' }}>
+                    <td style={{ padding: '14px 10px' }}>
                       <span className={`status-badge ${u.status === 'active' ? 'available' : u.status === 'pending_approval' ? 'reserved' : 'faulted'}`}>
                         {u.status}
                       </span>
                     </td>
-                    <td style={{ padding: '12px 8px', textAlign: 'right' }}>
+                    <td style={{ padding: '14px 10px', textAlign: 'right' }}>
                       {/* Operator pending approval workflow */}
                       {u.role === 'operator' && u.status === 'pending_approval' ? (
-                        <div style={{ display: 'flex', gap: '6px', justifyContent: 'flex-end' }}>
+                        <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
                           <button
                             onClick={() => handleReviewOperator(u.id, 'approved')}
                             className="btn-primary"
-                            style={{ padding: '4px 10px', fontSize: '0.75rem' }}
+                            style={{ padding: '6px 14px', fontSize: '0.8rem' }}
                           >
                             Approve
                           </button>
                           <button
                             onClick={() => handleReviewOperator(u.id, 'rejected')}
                             className="btn-danger"
-                            style={{ padding: '4px 10px', fontSize: '0.75rem' }}
+                            style={{ padding: '6px 14px', fontSize: '0.8rem' }}
                           >
                             Reject
                           </button>
@@ -348,12 +343,12 @@ export default function AdminDashboard() {
                         <button
                           onClick={() => handleToggleUserStatus(u)}
                           className={u.status === 'active' ? 'btn-danger' : 'btn-primary'}
-                          style={{ padding: '5px 12px', fontSize: '0.75rem' }}
+                          style={{ padding: '6px 14px', fontSize: '0.8rem' }}
                         >
                           {u.status === 'active' ? 'Deactivate (SE-6)' : 'Reactivate'}
                         </button>
                       ) : (
-                        <span style={{ fontSize: '0.75rem', color: '#64748b' }}>Admin Protected</span>
+                        <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 600 }}>Admin Protected</span>
                       )}
                     </td>
                   </tr>
@@ -367,53 +362,53 @@ export default function AdminDashboard() {
 
       {/* TAB 3: Station Approvals Center (Station.Approval) */}
       {activeTab === 'stations' && (
-        <div className="glass-panel" style={{ padding: '24px' }}>
+        <div className="glass-panel" style={{ padding: '26px' }}>
           
-          <div style={{ marginBottom: '18px' }}>
-            <h3 style={{ fontSize: '1.2rem', color: '#f8fafc' }}>Charging Station Approvals (Station.Approval)</h3>
-            <p style={{ fontSize: '0.8rem', color: '#94a3b8' }}>
+          <div style={{ marginBottom: '20px' }}>
+            <h3 style={{ fontSize: '1.25rem', color: 'var(--text-heading)', fontWeight: 800 }}>Charging Station Approvals (Station.Approval)</h3>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '3px' }}>
               Per SRS: A newly created station remains in "Pending Approval" status and does NOT appear in Driver search results until approved by an Administrator.
             </p>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {stationsList.map(stn => (
               <div
                 key={stn.id}
                 style={{
-                  background: 'rgba(255, 255, 255, 0.03)',
-                  border: '1px solid var(--border-color)',
-                  borderRadius: '12px',
-                  padding: '16px 20px',
+                  background: 'var(--bg-sunken)',
+                  boxShadow: 'var(--neu-sunken-sm)',
+                  borderRadius: '16px',
+                  padding: '20px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
                   flexWrap: 'wrap',
-                  gap: '14px'
+                  gap: '16px'
                 }}
               >
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <h4 style={{ fontSize: '1.1rem', color: '#f8fafc' }}>{stn.name}</h4>
+                    <h4 style={{ fontSize: '1.15rem', color: 'var(--text-heading)', fontWeight: 800 }}>{stn.name}</h4>
                     <span className={`status-badge ${stn.approval_status === 'approved' ? 'available' : stn.approval_status === 'pending approval' ? 'reserved' : 'faulted'}`}>
                       {stn.approval_status}
                     </span>
                   </div>
-                  <p style={{ fontSize: '0.85rem', color: '#94a3b8', marginTop: '3px' }}>
-                    {stn.address} • Operating: {stn.operating_hours}
+                  <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '4px' }}>
+                    {stn.address} • Operating: <strong style={{ color: 'var(--text-body)' }}>{stn.operating_hours}</strong>
                   </p>
-                  <div style={{ fontSize: '0.8rem', color: '#cbd5e1', marginTop: '4px' }}>
-                    Operator: <strong style={{ color: '#38bdf8' }}>{stn.operator_name}</strong> ({stn.operator_email}) • Chargers: <strong>{stn.chargers.length} bays deployed</strong>
+                  <div style={{ fontSize: '0.85rem', color: 'var(--text-body)', marginTop: '6px' }}>
+                    Operator: <strong style={{ color: 'var(--primary)' }}>{stn.operator_name}</strong> ({stn.operator_email}) • Chargers: <strong>{stn.chargers.length} bays deployed</strong>
                   </div>
                 </div>
 
                 {/* Actions */}
-                <div style={{ display: 'flex', gap: '8px' }}>
+                <div style={{ display: 'flex', gap: '10px' }}>
                   {stn.approval_status !== 'approved' && (
                     <button
                       onClick={() => handleReviewStation(stn.id, 'approved')}
                       className="btn-primary"
-                      style={{ padding: '6px 14px', fontSize: '0.85rem' }}
+                      style={{ padding: '8px 16px', fontSize: '0.85rem' }}
                     >
                       Approve Station
                     </button>
@@ -422,7 +417,7 @@ export default function AdminDashboard() {
                     <button
                       onClick={() => handleReviewStation(stn.id, 'suspended')}
                       className="btn-secondary"
-                      style={{ padding: '6px 14px', fontSize: '0.85rem', color: '#f59e0b' }}
+                      style={{ padding: '8px 16px', fontSize: '0.85rem', color: '#b45309' }}
                     >
                       Suspend
                     </button>
@@ -431,7 +426,7 @@ export default function AdminDashboard() {
                     <button
                       onClick={() => handleReviewStation(stn.id, 'rejected')}
                       className="btn-danger"
-                      style={{ padding: '6px 14px', fontSize: '0.85rem' }}
+                      style={{ padding: '8px 16px', fontSize: '0.85rem' }}
                     >
                       Reject
                     </button>
@@ -446,38 +441,39 @@ export default function AdminDashboard() {
 
       {/* TAB 4: Audit Logs (SE-6) */}
       {activeTab === 'audit' && (
-        <div className="glass-panel" style={{ padding: '24px' }}>
+        <div className="glass-panel" style={{ padding: '26px' }}>
           
-          <div style={{ marginBottom: '18px' }}>
-            <h3 style={{ fontSize: '1.2rem', color: '#f8fafc' }}>System Audit Trail (Security SE-6)</h3>
-            <p style={{ fontSize: '0.8rem', color: '#94a3b8' }}>
+          <div style={{ marginBottom: '20px' }}>
+            <h3 style={{ fontSize: '1.25rem', color: 'var(--text-heading)', fontWeight: 800 }}>System Audit Trail (Security SE-6)</h3>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '3px' }}>
               Immutable audit log of all administrative actions, account changes, approvals, and financial transactions.
             </p>
           </div>
 
-          <div style={{ overflowX: 'auto', maxHeight: '500px', overflowY: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8rem' }}>
+          <div style={{ overflowX: 'auto', maxHeight: '520px', overflowY: 'auto', background: 'var(--bg-sunken)', borderRadius: '16px', padding: '12px', boxShadow: 'var(--neu-sunken-sm)' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem' }}>
               <thead>
-                <tr style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.1)', color: '#94a3b8', textAlign: 'left' }}>
-                  <th style={{ padding: '8px' }}>Timestamp</th>
-                  <th style={{ padding: '8px' }}>Action</th>
-                  <th style={{ padding: '8px' }}>Actor</th>
-                  <th style={{ padding: '8px' }}>Target</th>
-                  <th style={{ padding: '8px' }}>Details</th>
+                <tr style={{ borderBottom: '2px solid rgba(0, 0, 0, 0.08)', color: 'var(--text-muted)', textAlign: 'left', fontWeight: 700 }}>
+                  <th style={{ padding: '10px 8px' }}>Timestamp</th>
+                  <th style={{ padding: '10px 8px' }}>Action</th>
+                  <th style={{ padding: '10px 8px' }}>Actor</th>
+                  <th style={{ padding: '10px 8px' }}>Target</th>
+                  <th style={{ padding: '10px 8px' }}>Details</th>
                 </tr>
               </thead>
               <tbody>
                 {auditLogs.map(log => (
-                  <tr key={log.id} style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.04)' }}>
-                    <td style={{ padding: '10px 8px', color: '#64748b', whiteSpace: 'nowrap' }}>
+                  <tr key={log.id} style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.05)' }}>
+                    <td style={{ padding: '12px 8px', color: 'var(--text-muted)', whiteSpace: 'nowrap', fontSize: '0.8rem' }}>
                       {new Date(log.timestamp).toLocaleString()}
                     </td>
-                    <td style={{ padding: '10px 8px' }}>
+                    <td style={{ padding: '12px 8px' }}>
                       <span style={{
-                        background: 'rgba(16, 185, 129, 0.15)',
-                        color: '#34d399',
-                        padding: '3px 8px',
-                        borderRadius: '4px',
+                        background: 'var(--bg-surface)',
+                        boxShadow: 'var(--neu-raised-sm)',
+                        color: 'var(--primary)',
+                        padding: '4px 10px',
+                        borderRadius: '6px',
                         fontWeight: 700,
                         fontSize: '0.75rem',
                         fontFamily: 'var(--font-mono)'
@@ -485,13 +481,13 @@ export default function AdminDashboard() {
                         {log.action}
                       </span>
                     </td>
-                    <td style={{ padding: '10px 8px', color: '#f8fafc' }}>
-                      {log.user_name} <span style={{ color: '#94a3b8', fontSize: '0.75rem' }}>({log.user_role})</span>
+                    <td style={{ padding: '12px 8px', color: 'var(--text-heading)', fontWeight: 600 }}>
+                      {log.user_name} <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem', fontWeight: 400 }}>({log.user_role})</span>
                     </td>
-                    <td style={{ padding: '10px 8px', color: '#38bdf8' }}>
+                    <td style={{ padding: '12px 8px', color: 'var(--primary)', fontWeight: 600 }}>
                       {log.target_type}: {log.target_id}
                     </td>
-                    <td style={{ padding: '10px 8px', color: '#cbd5e1' }}>
+                    <td style={{ padding: '12px 8px', color: 'var(--text-body)' }}>
                       {log.details}
                     </td>
                   </tr>

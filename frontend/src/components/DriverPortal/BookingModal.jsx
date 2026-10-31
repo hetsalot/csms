@@ -162,71 +162,72 @@ export default function BookingModal({ station, initialCharger, onClose, onBooki
         
         {/* Header */}
         <div style={{
-          padding: '20px 24px',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+          padding: '24px 28px',
+          borderBottom: '1px solid rgba(180, 170, 160, 0.25)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          background: 'rgba(15, 23, 42, 0.6)'
+          background: 'var(--bg-sunken)'
         }}>
           <div>
-            <span style={{ fontSize: '0.75rem', color: '#10b981', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            <span style={{ fontSize: '0.75rem', color: '#ff6b57', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
               Slot Reservation
             </span>
-            <h3 style={{ fontSize: '1.25rem', color: '#f8fafc', marginTop: '2px' }}>
+            <h3 style={{ fontSize: '1.3rem', color: 'var(--text-heading)', marginTop: '2px', fontWeight: 800 }}>
               Book Charger at {station?.name}
             </h3>
           </div>
-          <button onClick={onClose} style={{ background: 'transparent', border: 'none', color: '#94a3b8', cursor: 'pointer' }}>
+          <button onClick={onClose} style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: '4px' }}>
             <X size={22} />
           </button>
         </div>
 
         {/* Confirmed State View */}
         {confirmedBooking ? (
-          <div style={{ padding: '32px 24px', textAlign: 'center' }}>
+          <div style={{ padding: '36px 28px', textAlign: 'center' }}>
             <div style={{
-              width: '64px',
-              height: '64px',
+              width: '68px',
+              height: '68px',
               borderRadius: '50%',
-              background: 'rgba(16, 185, 129, 0.15)',
-              border: '2px solid #10b981',
+              background: 'var(--bg-sunken)',
+              border: '2px solid #059669',
+              boxShadow: 'var(--neu-raised-sm), 0 0 16px rgba(5, 150, 105, 0.3)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              margin: '0 auto 16px',
-              color: '#10b981'
+              margin: '0 auto 18px',
+              color: '#059669'
             }}>
-              <CheckCircle2 size={36} />
+              <CheckCircle2 size={38} />
             </div>
 
-            <h3 style={{ fontSize: '1.4rem', color: '#f8fafc', marginBottom: '8px' }}>
+            <h3 style={{ fontSize: '1.45rem', color: 'var(--text-heading)', marginBottom: '8px', fontWeight: 800 }}>
               Booking Confirmed!
             </h3>
-            <p style={{ color: '#94a3b8', fontSize: '0.9rem', marginBottom: '20px' }}>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.92rem', marginBottom: '24px' }}>
               Your charging slot has been reserved. A payment authorization hold has been placed.
             </p>
 
-            <div className="glass-panel" style={{ padding: '16px', textAlign: 'left', marginBottom: '24px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.9rem' }}>
-                <span style={{ color: '#94a3b8' }}>Booking ID:</span>
-                <span style={{ color: '#38bdf8', fontWeight: 700 }}>#{confirmedBooking.bookingNumber}</span>
+            <div className="glass-panel" style={{ padding: '20px', textAlign: 'left', marginBottom: '26px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px', fontSize: '0.9rem' }}>
+                <span style={{ color: 'var(--text-muted)' }}>Booking ID:</span>
+                <span style={{ color: '#ff6b57', fontWeight: 800 }}>#{confirmedBooking.bookingNumber}</span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.9rem' }}>
-                <span style={{ color: '#94a3b8' }}>Station:</span>
-                <span style={{ color: '#f8fafc', fontWeight: 600 }}>{confirmedBooking.stationName}</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px', fontSize: '0.9rem' }}>
+                <span style={{ color: 'var(--text-muted)' }}>Station:</span>
+                <span style={{ color: 'var(--text-main)', fontWeight: 700 }}>{confirmedBooking.stationName}</span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.9rem' }}>
-                <span style={{ color: '#94a3b8' }}>Charger:</span>
-                <span style={{ color: '#f8fafc', fontWeight: 600 }}>{confirmedBooking.chargerName}</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px', fontSize: '0.9rem' }}>
+                <span style={{ color: 'var(--text-muted)' }}>Charger:</span>
+                <span style={{ color: 'var(--text-main)', fontWeight: 700 }}>{confirmedBooking.chargerName}</span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.9rem' }}>
-                <span style={{ color: '#94a3b8' }}>Reserved Slot:</span>
-                <span style={{ color: '#10b981', fontWeight: 600 }}>{confirmedBooking.bookingDate} ({confirmedBooking.timeWindow})</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px', fontSize: '0.9rem' }}>
+                <span style={{ color: 'var(--text-muted)' }}>Reserved Slot:</span>
+                <span style={{ color: '#059669', fontWeight: 700 }}>{confirmedBooking.bookingDate} ({confirmedBooking.timeWindow})</span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', paddingTop: '8px', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-                <span style={{ color: '#94a3b8' }}>Pre-Authorization Hold:</span>
-                <span style={{ color: '#f59e0b', fontWeight: 700 }}>₹{confirmedBooking.estimatedCost.toFixed(2)}</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.05rem', paddingTop: '12px', borderTop: '1px solid rgba(180, 170, 160, 0.25)' }}>
+                <span style={{ color: 'var(--text-muted)', fontWeight: 600 }}>Pre-Authorization Hold:</span>
+                <span style={{ color: '#ff6b57', fontWeight: 800 }}>₹{confirmedBooking.estimatedCost.toFixed(2)}</span>
               </div>
             </div>
 
@@ -236,17 +237,18 @@ export default function BookingModal({ station, initialCharger, onClose, onBooki
           </div>
         ) : (
           /* Booking Form */
-          <form onSubmit={handleConfirmBooking} style={{ padding: '24px' }}>
+          <form onSubmit={handleConfirmBooking} style={{ padding: '28px' }}>
             
             {error && (
               <div style={{
-                background: 'rgba(239, 68, 68, 0.15)',
-                border: '1px solid rgba(239, 68, 68, 0.3)',
+                background: 'rgba(225, 29, 72, 0.1)',
+                border: '1px solid rgba(225, 29, 72, 0.3)',
                 padding: '12px 16px',
-                borderRadius: '8px',
-                marginBottom: '16px',
-                color: '#fca5a5',
-                fontSize: '0.85rem',
+                borderRadius: 'var(--radius-md)',
+                marginBottom: '18px',
+                color: '#b91c1c',
+                fontSize: '0.88rem',
+                fontWeight: 600,
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px'
@@ -257,24 +259,26 @@ export default function BookingModal({ station, initialCharger, onClose, onBooki
             )}
 
             {/* Step 1: Vehicle & Connector Selection */}
-            <div style={{ marginBottom: '18px' }}>
+            <div style={{ marginBottom: '20px' }}>
               <label>1. Select Vehicle / Connector (Book.Vehicle.Select)</label>
               {vehicles.length > 0 ? (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '8px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '10px' }}>
                   {vehicles.map(v => (
                     <div
                       key={v.id}
                       onClick={() => handleVehicleChange(v.id)}
                       style={{
-                        padding: '10px 14px',
-                        borderRadius: '8px',
-                        border: selectedVehicleId === v.id ? '2px solid #10b981' : '1px solid var(--border-color)',
-                        background: selectedVehicleId === v.id ? 'rgba(16, 185, 129, 0.1)' : 'rgba(255, 255, 255, 0.03)',
-                        cursor: 'pointer'
+                        padding: '12px 16px',
+                        borderRadius: 'var(--radius-md)',
+                        border: selectedVehicleId === v.id ? '2px solid #ff6b57' : '1px solid rgba(255, 255, 255, 0.7)',
+                        background: 'var(--bg-surface)',
+                        boxShadow: selectedVehicleId === v.id ? '0 0 14px var(--primary-glow), var(--neu-raised-sm)' : 'var(--neu-raised-sm)',
+                        cursor: 'pointer',
+                        transition: 'all 0.18s ease'
                       }}
                     >
-                      <div style={{ fontWeight: 600, fontSize: '0.9rem', color: '#f8fafc' }}>{v.make} {v.model}</div>
-                      <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: '2px' }}>
+                      <div style={{ fontWeight: 800, fontSize: '0.92rem', color: 'var(--text-heading)' }}>{v.make} {v.model}</div>
+                      <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '2px', fontWeight: 600 }}>
                         {v.connector_type} • {v.battery_capacity} kWh
                       </div>
                     </div>
@@ -295,7 +299,7 @@ export default function BookingModal({ station, initialCharger, onClose, onBooki
             </div>
 
             {/* Step 2: Date & 15-Minute Slot Time Window */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', marginBottom: '18px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '20px' }}>
               <div>
                 <label>2. Booking Date</label>
                 <div style={{ position: 'relative' }}>
@@ -316,17 +320,17 @@ export default function BookingModal({ station, initialCharger, onClose, onBooki
                   value={startTime}
                   onChange={e => setStartTime(e.target.value)}
                 />
-                <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: '4px' }}>
-                  Slot: <strong>{startTime}</strong> to <strong>{calculateEndTime()}</strong>
+                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '4px', fontWeight: 600 }}>
+                  Slot: <strong style={{ color: '#ff6b57' }}>{startTime}</strong> to <strong style={{ color: '#ff6b57' }}>{calculateEndTime()}</strong>
                 </div>
               </div>
             </div>
 
             {/* Step 3: Compatible Charger Selection */}
-            <div style={{ marginBottom: '18px' }}>
+            <div style={{ marginBottom: '20px' }}>
               <label>4. Select Compatible Charger at Station</label>
               {compatibleChargers.length > 0 ? (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                   {compatibleChargers.map(chg => (
                     <div
                       key={chg.id}
@@ -335,19 +339,32 @@ export default function BookingModal({ station, initialCharger, onClose, onBooki
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'space-between',
-                        padding: '10px 14px',
-                        borderRadius: '8px',
-                        border: selectedChargerId === chg.id ? '2px solid #10b981' : '1px solid var(--border-color)',
-                        background: selectedChargerId === chg.id ? 'rgba(16, 185, 129, 0.1)' : 'rgba(255, 255, 255, 0.03)',
-                        cursor: 'pointer'
+                        padding: '12px 16px',
+                        borderRadius: 'var(--radius-md)',
+                        border: selectedChargerId === chg.id ? '2px solid #ff6b57' : '1px solid rgba(255, 255, 255, 0.7)',
+                        background: 'var(--bg-surface)',
+                        boxShadow: selectedChargerId === chg.id ? '0 0 14px var(--primary-glow), var(--neu-raised-sm)' : 'var(--neu-raised-sm)',
+                        cursor: 'pointer',
+                        transition: 'all 0.18s ease'
                       }}
                     >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                        <Zap size={18} color="#10b981" />
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <div style={{
+                          width: '38px',
+                          height: '38px',
+                          borderRadius: '50%',
+                          background: 'var(--bg-sunken)',
+                          boxShadow: 'var(--neu-sunken)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center'
+                        }}>
+                          <Zap size={18} color="#ff6b57" />
+                        </div>
                         <div>
-                          <div style={{ fontWeight: 600, fontSize: '0.9rem', color: '#f8fafc' }}>{chg.name}</div>
-                          <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>
-                            {chg.power_rating} kW • {chg.speed_category.toUpperCase()} • Rate: ₹{chg.price_rate}/{chg.pricing_type === 'per_kwh' ? 'kWh' : 'min'}
+                          <div style={{ fontWeight: 800, fontSize: '0.92rem', color: 'var(--text-heading)' }}>{chg.name}</div>
+                          <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 600 }}>
+                            {chg.power_rating} kW • {chg.speed_category.toUpperCase()} • Rate: <span style={{ color: '#ff6b57' }}>₹{chg.price_rate}/{chg.pricing_type === 'per_kwh' ? 'kWh' : 'min'}</span>
                           </div>
                         </div>
                       </div>
@@ -357,12 +374,13 @@ export default function BookingModal({ station, initialCharger, onClose, onBooki
                 </div>
               ) : (
                 <div style={{
-                  padding: '12px',
-                  background: 'rgba(239, 68, 68, 0.1)',
-                  border: '1px dashed rgba(239, 68, 68, 0.3)',
-                  borderRadius: '8px',
-                  color: '#fca5a5',
-                  fontSize: '0.85rem'
+                  padding: '14px',
+                  background: 'var(--bg-sunken)',
+                  border: '1px dashed #e11d48',
+                  borderRadius: 'var(--radius-md)',
+                  color: '#b91c1c',
+                  fontSize: '0.88rem',
+                  fontWeight: 600
                 }}>
                   No active chargers with {manualConnector} connector at this station right now.
                 </div>
@@ -370,10 +388,10 @@ export default function BookingModal({ station, initialCharger, onClose, onBooki
             </div>
 
             {/* Step 4: Estimated Duration & Target Battery % */}
-            <div style={{ marginBottom: '18px', background: 'rgba(255, 255, 255, 0.03)', padding: '14px', borderRadius: '10px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
-                <label style={{ margin: 0 }}>5. Estimated Session Duration: <strong>{durationMins} Mins</strong></label>
-                <span style={{ fontSize: '0.8rem', color: '#38bdf8' }}>Target SoC: <strong>{targetSoc}%</strong></span>
+            <div style={{ marginBottom: '20px', background: 'var(--bg-sunken)', boxShadow: 'var(--neu-sunken)', padding: '16px 20px', borderRadius: 'var(--radius-md)', border: '1px solid rgba(255, 255, 255, 0.5)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                <label style={{ margin: 0 }}>5. Estimated Session Duration: <strong style={{ color: '#ff6b57' }}>{durationMins} Mins</strong></label>
+                <span style={{ fontSize: '0.82rem', color: '#ff6b57', fontWeight: 800 }}>Target SoC: {targetSoc}%</span>
               </div>
               <input
                 type="range"
@@ -382,9 +400,9 @@ export default function BookingModal({ station, initialCharger, onClose, onBooki
                 step="15"
                 value={durationMins}
                 onChange={e => setDurationMins(parseInt(e.target.value))}
-                style={{ width: '100%', accentColor: '#10b981', cursor: 'pointer' }}
+                style={{ width: '100%', cursor: 'pointer' }}
               />
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: '#64748b', marginTop: '4px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '4px', fontWeight: 600 }}>
                 <span>15 min</span>
                 <span>30 min</span>
                 <span>45 min</span>
@@ -395,9 +413,9 @@ export default function BookingModal({ station, initialCharger, onClose, onBooki
             </div>
 
             {/* Step 5: Payment Hold Method (Book.Pay.Hold & SE-3 Tokenization) */}
-            <div style={{ marginBottom: '20px' }}>
+            <div style={{ marginBottom: '22px' }}>
               <label>6. Payment Method for Pre-Authorization Hold (Book.Pay.Hold)</label>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <select
                   value={selectedPaymentMethodId}
                   onChange={e => setSelectedPaymentMethodId(e.target.value)}
@@ -412,8 +430,8 @@ export default function BookingModal({ station, initialCharger, onClose, onBooki
                     <option value="sim_card_1">HDFC Visa Credit Card (•••• 4242)</option>
                   )}
                 </select>
-                <div style={{ fontSize: '0.75rem', color: '#10b981', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <ShieldCheck size={16} />
+                <div style={{ fontSize: '0.78rem', color: '#059669', display: 'flex', alignItems: 'center', gap: '4px', fontWeight: 700 }}>
+                  <ShieldCheck size={18} />
                   <span>PCI-DSS Tokenized</span>
                 </div>
               </div>
@@ -421,27 +439,28 @@ export default function BookingModal({ station, initialCharger, onClose, onBooki
 
             {/* Estimated Total & Confirm CTA */}
             <div style={{
-              background: 'rgba(16, 185, 129, 0.08)',
-              border: '1px solid rgba(16, 185, 129, 0.25)',
-              borderRadius: '12px',
-              padding: '16px',
+              background: 'var(--bg-sunken)',
+              border: '1px solid rgba(255, 255, 255, 0.6)',
+              boxShadow: 'var(--neu-sunken)',
+              borderRadius: 'var(--radius-lg)',
+              padding: '18px 22px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              marginBottom: '20px'
+              marginBottom: '22px'
             }}>
               <div>
-                <span style={{ fontSize: '0.8rem', color: '#94a3b8' }}>Estimated Cost / Auth Hold (BR-12):</span>
-                <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#f8fafc', marginTop: '2px' }}>
+                <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)', fontWeight: 600 }}>Estimated Cost / Auth Hold (BR-12):</span>
+                <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#ff6b57', marginTop: '2px' }}>
                   ₹{estimatedCost.toFixed(2)}
                 </div>
               </div>
-              <div style={{ textAlign: 'right', fontSize: '0.75rem', color: '#94a3b8' }}>
-                Final charge calculated<br />on actual energy (kWh)
+              <div style={{ textAlign: 'right', fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 600 }}>
+                Final charge calculated<br />on actual energy delivered (kWh)
               </div>
             </div>
 
-            <div style={{ display: 'flex', gap: '10px' }}>
+            <div style={{ display: 'flex', gap: '12px' }}>
               <button type="button" onClick={onClose} className="btn-secondary" style={{ flex: 1 }}>
                 Cancel
               </button>

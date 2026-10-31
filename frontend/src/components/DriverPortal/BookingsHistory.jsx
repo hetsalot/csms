@@ -88,31 +88,22 @@ export default function BookingsHistory({ onOpenInvoice, onReorderBooking, onOpe
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
       
       {/* Title & Filter bar */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '14px' }}>
         <div>
-          <h2 style={{ fontSize: '1.4rem', color: '#f8fafc' }}>Bookings & Session History</h2>
-          <p style={{ fontSize: '0.85rem', color: '#94a3b8' }}>
+          <h2 style={{ fontSize: '1.45rem', color: 'var(--text-heading)', fontWeight: 800 }}>Bookings & Session History</h2>
+          <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 600, marginTop: '2px' }}>
             All charging sessions from the previous 12 months (Book.Previous.Period)
           </p>
         </div>
 
-        {/* Filter Pills */}
-        <div style={{ display: 'flex', background: 'rgba(15, 23, 42, 0.8)', padding: '4px', borderRadius: '10px', border: '1px solid var(--border-color)', gap: '4px' }}>
+        {/* Filter Pills - Neumorphic Segmented Control Track */}
+        <div className="neu-segmented-track">
           {['all', 'confirmed', 'in-progress', 'completed', 'canceled', 'no-show'].map(st => (
             <button
               key={st}
               onClick={() => setFilterStatus(st)}
-              style={{
-                background: filterStatus === st ? '#10b981' : 'transparent',
-                color: filterStatus === st ? '#ffffff' : '#94a3b8',
-                border: 'none',
-                padding: '6px 12px',
-                borderRadius: '6px',
-                fontSize: '0.8rem',
-                fontWeight: 600,
-                cursor: 'pointer',
-                textTransform: 'capitalize'
-              }}
+              className={`neu-segmented-item ${filterStatus === st ? 'active' : ''}`}
+              style={{ textTransform: 'capitalize' }}
             >
               {st}
             </button>
@@ -122,23 +113,23 @@ export default function BookingsHistory({ onOpenInvoice, onReorderBooking, onOpe
 
       {/* Bookings List */}
       {loading ? (
-        <div style={{ padding: '40px', textAlign: 'center', color: '#94a3b8' }}>Loading bookings history...</div>
+        <div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-muted)' }}>Loading bookings history...</div>
       ) : filteredBookings.length === 0 ? (
         <div className="glass-panel" style={{ padding: '48px', textAlign: 'center' }}>
-          <Calendar size={40} color="#64748b" style={{ margin: '0 auto 12px' }} />
-          <h4 style={{ color: '#f8fafc', fontSize: '1.1rem' }}>No bookings found in this period</h4>
-          <p style={{ color: '#94a3b8', fontSize: '0.85rem', marginTop: '4px' }}>
+          <Calendar size={44} color="var(--primary)" style={{ margin: '0 auto 12px' }} />
+          <h4 style={{ color: 'var(--text-heading)', fontSize: '1.2rem', fontWeight: 800 }}>No bookings found in this period</h4>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginTop: '6px' }}>
             Book a charging slot from the map to see your scheduled reservations here.
           </p>
         </div>
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {filteredBookings.map(bk => (
             <div
               key={bk.id}
               className="glass-panel glass-panel-hover"
               style={{
-                padding: '18px 20px',
+                padding: '20px 24px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
@@ -147,26 +138,27 @@ export default function BookingsHistory({ onOpenInvoice, onReorderBooking, onOpe
               }}
             >
               {/* Left details */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                 <div style={{
-                  width: '46px',
-                  height: '46px',
-                  borderRadius: '12px',
-                  background: 'rgba(255, 255, 255, 0.04)',
-                  border: '1px solid var(--border-color)',
+                  width: '48px',
+                  height: '48px',
+                  borderRadius: '50%',
+                  background: 'var(--bg-sunken)',
+                  boxShadow: 'var(--neu-sunken)',
+                  border: '1px solid rgba(255, 255, 255, 0.6)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center'
                 }}>
-                  <Zap size={24} color={bk.status === 'completed' ? '#10b981' : bk.status === 'in-progress' ? '#3b82f6' : '#f59e0b'} />
+                  <Zap size={22} color={bk.status === 'completed' ? '#059669' : bk.status === 'in-progress' ? '#ff6b57' : '#d97706'} />
                 </div>
 
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <span style={{ fontWeight: 700, fontSize: '1rem', color: '#f8fafc' }}>
+                    <span style={{ fontWeight: 800, fontSize: '1.05rem', color: 'var(--text-heading)' }}>
                       {bk.station_name}
                     </span>
-                    <span style={{ fontSize: '0.8rem', color: '#38bdf8', fontWeight: 600 }}>
+                    <span style={{ fontSize: '0.82rem', color: '#ff6b57', fontWeight: 800 }}>
                       #{bk.booking_number}
                     </span>
                     <span className={`status-badge ${bk.status}`}>
@@ -174,21 +166,21 @@ export default function BookingsHistory({ onOpenInvoice, onReorderBooking, onOpe
                     </span>
                   </div>
 
-                  <div style={{ fontSize: '0.8rem', color: '#94a3b8', marginTop: '4px' }}>
+                  <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginTop: '4px', fontWeight: 600 }}>
                     {bk.charger_name} • {bk.connector_type} • {bk.power_rating} kW
                   </div>
 
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '0.8rem', color: '#cbd5e1', marginTop: '4px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '14px', fontSize: '0.82rem', color: 'var(--text-main)', marginTop: '4px', fontWeight: 600 }}>
                     <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                      <Calendar size={13} color="#10b981" />
+                      <Calendar size={14} color="#ff6b57" />
                       {bk.booking_date}
                     </span>
                     <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                      <Clock size={13} color="#38bdf8" />
+                      <Clock size={14} color="#059669" />
                       {bk.start_time} - {bk.end_time}
                     </span>
                     {bk.energy_delivered_kwh > 0 && (
-                      <span style={{ color: '#10b981', fontWeight: 600 }}>
+                      <span style={{ color: '#059669', fontWeight: 700 }}>
                         {bk.energy_delivered_kwh} kWh delivered
                       </span>
                     )}
@@ -197,33 +189,33 @@ export default function BookingsHistory({ onOpenInvoice, onReorderBooking, onOpe
               </div>
 
               {/* Right price and actions */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                 <div style={{ textAlign: 'right' }}>
-                  <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>
                     {bk.status === 'completed' ? 'Final Charged' : 'Pre-Auth Hold'}
                   </span>
-                  <div style={{ fontSize: '1.2rem', fontWeight: 800, color: bk.status === 'completed' ? '#10b981' : '#f59e0b' }}>
+                  <div style={{ fontSize: '1.35rem', fontWeight: 800, color: bk.status === 'completed' ? '#059669' : '#ff6b57' }}>
                     ₹{(bk.final_cost || bk.estimated_cost).toFixed(2)}
                   </div>
                 </div>
 
                 {/* Actions per state */}
-                <div style={{ display: 'flex', gap: '8px' }}>
+                <div style={{ display: 'flex', gap: '10px' }}>
                   {bk.status === 'confirmed' && (
                     <>
                       <button
                         onClick={() => handleStartSession(bk)}
                         disabled={actionLoadingId === bk.id}
                         className="btn-primary"
-                        style={{ padding: '8px 14px', fontSize: '0.85rem' }}
+                        style={{ padding: '9px 18px', fontSize: '0.88rem' }}
                       >
                         Start Charge
                       </button>
                       <button
                         onClick={() => handleCancelBooking(bk.id)}
                         disabled={actionLoadingId === bk.id}
-                        className="btn-secondary"
-                        style={{ padding: '8px 12px', fontSize: '0.85rem', color: '#fca5a5' }}
+                        className="btn-danger"
+                        style={{ padding: '9px 14px', fontSize: '0.85rem' }}
                         title="Cancel booking and release hold (BR-9)"
                       >
                         <XCircle size={16} />
@@ -236,7 +228,7 @@ export default function BookingsHistory({ onOpenInvoice, onReorderBooking, onOpe
                     <button
                       onClick={() => onOpenActiveSession(bk)}
                       className="btn-primary"
-                      style={{ padding: '8px 14px', fontSize: '0.85rem', background: '#3b82f6' }}
+                      style={{ padding: '9px 18px', fontSize: '0.88rem' }}
                     >
                       Live Session
                     </button>
@@ -248,20 +240,20 @@ export default function BookingsHistory({ onOpenInvoice, onReorderBooking, onOpe
                         <button
                           onClick={() => onOpenInvoice(bk.invoice_id)}
                           className="btn-secondary"
-                          style={{ padding: '8px 12px', fontSize: '0.85rem' }}
+                          style={{ padding: '9px 14px', fontSize: '0.85rem' }}
                           title="View Invoice & Receipt"
                         >
-                          <FileText size={16} color="#38bdf8" />
+                          <FileText size={16} color="#ff6b57" />
                           <span>Invoice</span>
                         </button>
                       )}
                       <button
                         onClick={() => onReorderBooking(bk)}
                         className="btn-secondary"
-                        style={{ padding: '8px 12px', fontSize: '0.85rem' }}
+                        style={{ padding: '9px 14px', fontSize: '0.85rem' }}
                         title="Re-order booking pre-filled (Book.Previous.Reorder)"
                       >
-                        <RotateCcw size={16} color="#10b981" />
+                        <RotateCcw size={16} color="#059669" />
                         <span>Re-book</span>
                       </button>
                     </>

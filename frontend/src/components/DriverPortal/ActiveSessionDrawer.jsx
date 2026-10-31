@@ -78,103 +78,152 @@ export default function ActiveSessionDrawer({ activeBooking, onSessionCompleted,
         
         {/* Header */}
         <div style={{
-          padding: '20px 24px',
-          background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(16, 185, 129, 0.15) 100%)',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+          padding: '22px 26px',
+          background: 'var(--bg-sunken)',
+          borderBottom: '1px solid rgba(180, 170, 160, 0.25)',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center'
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <div style={{
-              width: '36px',
-              height: '36px',
+              width: '40px',
+              height: '40px',
               borderRadius: '50%',
-              background: '#3b82f6',
+              background: 'var(--primary-gradient)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              boxShadow: '0 0 15px rgba(59, 130, 246, 0.6)'
+              boxShadow: 'var(--neu-raised-sm), 0 0 16px var(--primary-glow)'
             }}>
-              <Zap size={20} color="white" />
+              <Zap size={22} color="white" />
             </div>
             <div>
               <span className="status-badge charging">● LIVE OCPP 2.0.1 SESSION</span>
-              <h3 style={{ fontSize: '1.15rem', color: '#f8fafc', marginTop: '2px' }}>
-                {activeBooking?.station_name || 'Charging Station'} • Booking #{activeBooking?.booking_number || '1002'}
+              <h3 style={{ fontSize: '1.2rem', color: 'var(--text-heading)', marginTop: '4px', fontWeight: 800 }}>
+                {activeBooking?.station_name || 'Charging Station'} • #{activeBooking?.booking_number || '1002'}
               </h3>
             </div>
           </div>
-          <button onClick={onClose} style={{ background: 'transparent', border: 'none', color: '#94a3b8', cursor: 'pointer', fontSize: '1.2rem' }}>
+          <button onClick={onClose} style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: '1.2rem', padding: '4px' }}>
             ✕
           </button>
         </div>
 
         {/* Content */}
-        <div style={{ padding: '24px' }}>
+        <div style={{ padding: '26px' }}>
           
           {completedSummary ? (
             <div style={{ textAlign: 'center', padding: '16px 0' }}>
-              <CheckCircle size={56} color="#10b981" style={{ margin: '0 auto 16px' }} />
-              <h3 style={{ fontSize: '1.4rem', color: '#f8fafc', marginBottom: '8px' }}>
+              <CheckCircle size={56} color="#059669" style={{ margin: '0 auto 16px' }} />
+              <h3 style={{ fontSize: '1.4rem', color: 'var(--text-heading)', marginBottom: '8px', fontWeight: 800 }}>
                 Session Successfully Completed!
               </h3>
-              <p style={{ color: '#94a3b8', fontSize: '0.9rem', marginBottom: '20px' }}>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.92rem', marginBottom: '22px' }}>
                 Payment captured via authorized method. Invoice #{completedSummary.invoiceId} generated.
               </p>
 
-              <div className="glass-panel" style={{ padding: '16px', textAlign: 'left', marginBottom: '20px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.9rem' }}>
-                  <span style={{ color: '#94a3b8' }}>Total Energy:</span>
-                  <span style={{ fontWeight: 700, color: '#f8fafc' }}>{completedSummary.energyDeliveredKwh} kWh</span>
+              <div className="glass-panel" style={{ padding: '20px', textAlign: 'left', marginBottom: '24px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px', fontSize: '0.9rem' }}>
+                  <span style={{ color: 'var(--text-muted)' }}>Total Energy:</span>
+                  <span style={{ fontWeight: 800, color: 'var(--text-heading)' }}>{completedSummary.energyDeliveredKwh} kWh</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.9rem' }}>
-                  <span style={{ color: '#94a3b8' }}>Total Duration:</span>
-                  <span style={{ fontWeight: 700, color: '#f8fafc' }}>{elapsedMins} Mins</span>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px', fontSize: '0.9rem' }}>
+                  <span style={{ color: 'var(--text-muted)' }}>Total Duration:</span>
+                  <span style={{ fontWeight: 800, color: 'var(--text-heading)' }}>{elapsedMins} Mins</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1rem', paddingTop: '8px', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-                  <span style={{ color: '#94a3b8' }}>Final Payment Captured:</span>
-                  <span style={{ fontWeight: 800, color: '#10b981' }}>₹{completedSummary.finalCost.toFixed(2)}</span>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.1rem', paddingTop: '12px', borderTop: '1px solid rgba(180, 170, 160, 0.25)' }}>
+                  <span style={{ color: 'var(--text-muted)', fontWeight: 600 }}>Final Captured Total:</span>
+                  <span style={{ fontWeight: 800, color: '#ff6b57' }}>₹{completedSummary.finalCost.toFixed(2)}</span>
                 </div>
               </div>
 
-              <button onClick={onClose} className="btn-primary" style={{ width: '100%' }}>
+              <button onClick={onClose} className="btn-primary" style={{ width: '100%', padding: '12px' }}>
                 Done / View Invoice
               </button>
             </div>
           ) : (
             <>
-              {/* Battery SOC Visualizer */}
-              <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-                <div style={{ position: 'relative', width: '180px', height: '180px', margin: '0 auto' }}>
-                  <svg width="180" height="180" viewBox="0 0 100 100" style={{ transform: 'rotate(-90deg)' }}>
-                    <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(255, 255, 255, 0.08)" strokeWidth="8" />
-                    <circle
-                      cx="50"
-                      cy="50"
-                      r="42"
-                      fill="none"
-                      stroke="#10b981"
-                      strokeWidth="8"
-                      strokeDasharray="264"
-                      strokeDashoffset={264 - (264 * soc) / 100}
-                      strokeLinecap="round"
-                      style={{ transition: 'stroke-dashoffset 0.5s ease' }}
-                    />
-                  </svg>
+              {/* Neumorphic Dial Battery SOC Visualizer (from reference image!) */}
+              <div style={{ textAlign: 'center', marginBottom: '28px' }}>
+                <div style={{
+                  position: 'relative',
+                  width: '210px',
+                  height: '210px',
+                  margin: '0 auto',
+                  borderRadius: '50%',
+                  background: 'var(--bg-surface)',
+                  boxShadow: 'var(--neu-raised)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  border: '1px solid rgba(255, 255, 255, 0.7)'
+                }}>
+                  {/* Sunken track groove for circular meter */}
                   <div style={{
                     position: 'absolute',
-                    inset: 0,
+                    width: '180px',
+                    height: '180px',
+                    borderRadius: '50%',
+                    background: 'var(--bg-sunken)',
+                    boxShadow: 'var(--neu-sunken-deep)',
                     display: 'flex',
-                    flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center'
                   }}>
-                    <BatteryCharging size={28} color="#10b981" />
-                    <span style={{ fontSize: '2rem', fontWeight: 800, color: '#f8fafc', marginTop: '2px' }}>
-                      {soc}%
-                    </span>
-                    <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>State of Charge</span>
+                    <svg width="180" height="180" viewBox="0 0 100 100" style={{ transform: 'rotate(-90deg)', position: 'absolute', inset: 0 }}>
+                      <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(200, 190, 180, 0.3)" strokeWidth="6" />
+                      <circle
+                        cx="50"
+                        cy="50"
+                        r="42"
+                        fill="none"
+                        stroke="#ff6b57"
+                        strokeWidth="7"
+                        strokeDasharray="264"
+                        strokeDashoffset={264 - (264 * soc) / 100}
+                        strokeLinecap="round"
+                        style={{
+                          transition: 'stroke-dashoffset 0.5s ease',
+                          filter: 'drop-shadow(0 0 6px rgba(255, 107, 87, 0.8))'
+                        }}
+                      />
+                    </svg>
+
+                    {/* Center Neumorphic Knob */}
+                    <div style={{
+                      width: '136px',
+                      height: '136px',
+                      borderRadius: '50%',
+                      background: 'var(--bg-surface)',
+                      boxShadow: 'var(--neu-raised)',
+                      border: '1px solid rgba(255, 255, 255, 0.8)',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      position: 'relative',
+                      zIndex: 2
+                    }}>
+                      {/* Notch at top of knob (from reference image) */}
+                      <div style={{
+                        position: 'absolute',
+                        top: '8px',
+                        width: '4px',
+                        height: '10px',
+                        borderRadius: '2px',
+                        background: '#ff6b57',
+                        boxShadow: '0 0 6px var(--primary-glow)'
+                      }} />
+
+                      <BatteryCharging size={24} color="#ff6b57" style={{ marginTop: '8px' }} />
+                      <span style={{ fontSize: '1.9rem', fontWeight: 800, color: 'var(--text-heading)', lineHeight: 1.1 }}>
+                        {soc}%
+                      </span>
+                      <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                        State of Charge
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -183,45 +232,45 @@ export default function ActiveSessionDrawer({ activeBooking, onSessionCompleted,
               <div style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(2, 1fr)',
-                gap: '12px',
-                marginBottom: '24px'
+                gap: '14px',
+                marginBottom: '26px'
               }}>
-                <div className="glass-panel" style={{ padding: '14px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#94a3b8', fontSize: '0.8rem' }}>
-                    <Zap size={14} color="#34d399" />
+                <div className="glass-panel" style={{ padding: '16px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-muted)', fontSize: '0.8rem', fontWeight: 600 }}>
+                    <Zap size={14} color="#ff6b57" />
                     <span>Energy Delivered</span>
                   </div>
-                  <div style={{ fontSize: '1.3rem', fontWeight: 700, color: '#f8fafc', marginTop: '4px' }}>
-                    {energyDelivered} <span style={{ fontSize: '0.85rem', color: '#94a3b8' }}>kWh</span>
+                  <div style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--text-heading)', marginTop: '4px' }}>
+                    {energyDelivered} <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 500 }}>kWh</span>
                   </div>
                 </div>
 
-                <div className="glass-panel" style={{ padding: '14px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#94a3b8', fontSize: '0.8rem' }}>
-                    <Gauge size={14} color="#38bdf8" />
+                <div className="glass-panel" style={{ padding: '16px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-muted)', fontSize: '0.8rem', fontWeight: 600 }}>
+                    <Gauge size={14} color="#ff6b57" />
                     <span>Current Power</span>
                   </div>
-                  <div style={{ fontSize: '1.3rem', fontWeight: 700, color: '#38bdf8', marginTop: '4px' }}>
-                    {powerKw} <span style={{ fontSize: '0.85rem', color: '#94a3b8' }}>kW</span>
+                  <div style={{ fontSize: '1.35rem', fontWeight: 800, color: '#ff6b57', marginTop: '4px' }}>
+                    {powerKw} <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 500 }}>kW</span>
                   </div>
                 </div>
 
-                <div className="glass-panel" style={{ padding: '14px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#94a3b8', fontSize: '0.8rem' }}>
-                    <Clock size={14} color="#f59e0b" />
+                <div className="glass-panel" style={{ padding: '16px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-muted)', fontSize: '0.8rem', fontWeight: 600 }}>
+                    <Clock size={14} color="#d97706" />
                     <span>Duration Elapsed</span>
                   </div>
-                  <div style={{ fontSize: '1.3rem', fontWeight: 700, color: '#f8fafc', marginTop: '4px' }}>
-                    {elapsedMins} <span style={{ fontSize: '0.85rem', color: '#94a3b8' }}>Mins</span>
+                  <div style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--text-heading)', marginTop: '4px' }}>
+                    {elapsedMins} <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 500 }}>Mins</span>
                   </div>
                 </div>
 
-                <div className="glass-panel" style={{ padding: '14px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#94a3b8', fontSize: '0.8rem' }}>
-                    <DollarSign size={14} color="#10b981" />
+                <div className="glass-panel" style={{ padding: '16px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-muted)', fontSize: '0.8rem', fontWeight: 600 }}>
+                    <DollarSign size={14} color="#059669" />
                     <span>Accumulated Cost</span>
                   </div>
-                  <div style={{ fontSize: '1.3rem', fontWeight: 700, color: '#10b981', marginTop: '4px' }}>
+                  <div style={{ fontSize: '1.35rem', fontWeight: 800, color: '#059669', marginTop: '4px' }}>
                     ₹{currentCost.toFixed(2)}
                   </div>
                 </div>
@@ -232,7 +281,7 @@ export default function ActiveSessionDrawer({ activeBooking, onSessionCompleted,
                 onClick={handleStopCharging}
                 disabled={stopping}
                 className="btn-danger"
-                style={{ width: '100%', padding: '14px', justifyContent: 'center', fontSize: '1rem' }}
+                style={{ width: '100%', padding: '14px', justifyContent: 'center', fontSize: '0.98rem' }}
               >
                 <StopCircle size={20} />
                 <span>{stopping ? 'Finalizing Session & Capturing Payment...' : 'Stop Charging & Finalize Payment'}</span>

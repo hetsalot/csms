@@ -65,77 +65,83 @@ export default function GuidedWalkthrough({ onClose }) {
         
         {/* Header */}
         <div style={{
-          padding: '20px 24px',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+          padding: '24px 28px',
+          borderBottom: '1px solid rgba(180, 170, 160, 0.25)',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          background: 'rgba(15, 23, 42, 0.7)'
+          background: 'var(--bg-sunken)'
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Compass size={20} color="#10b981" />
-            <h3 style={{ fontSize: '1.15rem', color: '#f8fafc' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <Compass size={22} color="#ff6b57" />
+            <h3 style={{ fontSize: '1.25rem', color: 'var(--text-heading)', fontWeight: 800 }}>
               Driver Booking Walkthrough (UD-2)
             </h3>
           </div>
-          <button onClick={onClose} style={{ background: 'transparent', border: 'none', color: '#94a3b8', cursor: 'pointer' }}>
-            <X size={20} />
+          <button onClick={onClose} style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: '4px' }}>
+            <X size={22} />
           </button>
         </div>
 
         {/* Body */}
-        <div style={{ padding: '28px 24px' }}>
+        <div style={{ padding: '30px 28px' }}>
           
           {/* Progress dots */}
-          <div style={{ display: 'flex', gap: '6px', marginBottom: '24px' }}>
+          <div style={{ display: 'flex', gap: '8px', marginBottom: '26px' }}>
             {STEPS.map((_, idx) => (
               <div
                 key={idx}
                 style={{
                   flex: 1,
-                  height: '4px',
-                  borderRadius: '2px',
-                  background: idx <= currentStep ? '#10b981' : 'rgba(255, 255, 255, 0.1)',
-                  transition: 'background 0.3s'
+                  height: '6px',
+                  borderRadius: '3px',
+                  background: idx <= currentStep ? 'var(--primary-gradient)' : 'var(--bg-sunken)',
+                  boxShadow: idx <= currentStep ? '0 0 8px var(--primary-glow)' : 'var(--neu-sunken)',
+                  transition: 'all 0.3s ease'
                 }}
               />
             ))}
           </div>
 
           <div style={{
-            width: '60px',
-            height: '60px',
-            borderRadius: '16px',
-            background: 'rgba(16, 185, 129, 0.15)',
-            border: '1px solid rgba(16, 185, 129, 0.3)',
+            width: '64px',
+            height: '64px',
+            borderRadius: '50%',
+            background: 'var(--bg-sunken)',
+            boxShadow: 'var(--neu-sunken)',
+            border: '1px solid rgba(255, 255, 255, 0.7)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            marginBottom: '16px',
-            color: '#10b981'
+            marginBottom: '18px',
+            color: '#ff6b57'
           }}>
             <Icon size={30} />
           </div>
 
-          <h3 style={{ fontSize: '1.3rem', color: '#f8fafc', marginBottom: '10px' }}>
+          <h3 style={{ fontSize: '1.35rem', color: 'var(--text-heading)', marginBottom: '10px', fontWeight: 800 }}>
             {step.title}
           </h3>
 
-          <p style={{ color: '#cbd5e1', fontSize: '0.95rem', lineHeight: 1.5, marginBottom: '16px' }}>
+          <p style={{ color: 'var(--text-body)', fontSize: '0.95rem', lineHeight: 1.55, marginBottom: '20px', fontWeight: 500 }}>
             {step.desc}
           </p>
 
           <div style={{
-            background: 'rgba(255, 255, 255, 0.03)',
-            borderLeft: '3px solid #10b981',
-            padding: '12px 16px',
-            borderRadius: '0 8px 8px 0',
-            marginBottom: '24px'
+            background: 'var(--bg-sunken)',
+            boxShadow: 'var(--neu-sunken)',
+            borderLeft: '4px solid #ff6b57',
+            border: '1px solid rgba(255, 255, 255, 0.5)',
+            borderLeftWidth: '4px',
+            borderLeftColor: '#ff6b57',
+            padding: '14px 18px',
+            borderRadius: '0 12px 12px 0',
+            marginBottom: '26px'
           }}>
-            <span style={{ fontSize: '0.75rem', color: '#10b981', fontWeight: 700, textTransform: 'uppercase' }}>
+            <span style={{ fontSize: '0.75rem', color: '#ff6b57', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
               Pro Tip:
             </span>
-            <p style={{ fontSize: '0.85rem', color: '#94a3b8', marginTop: '2px' }}>
+            <p style={{ fontSize: '0.88rem', color: 'var(--text-main)', marginTop: '3px', fontWeight: 600 }}>
               {step.tip}
             </p>
           </div>
@@ -146,22 +152,22 @@ export default function GuidedWalkthrough({ onClose }) {
               onClick={handlePrev}
               disabled={currentStep === 0}
               className="btn-secondary"
-              style={{ visibility: currentStep === 0 ? 'hidden' : 'visible', padding: '8px 14px' }}
+              style={{ visibility: currentStep === 0 ? 'hidden' : 'visible', padding: '9px 18px' }}
             >
               <ArrowLeft size={16} />
               <span>Back</span>
             </button>
 
-            <span style={{ fontSize: '0.8rem', color: '#64748b' }}>
+            <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)', fontWeight: 700 }}>
               Step {currentStep + 1} of {STEPS.length}
             </span>
 
             <button
               onClick={handleNext}
               className="btn-primary"
-              style={{ padding: '8px 18px' }}
+              style={{ padding: '9px 20px' }}
             >
-              <span>{currentStep === STEPS.length - 1 ? 'Start Exploring' : 'Next Step'}</span>
+              <span>{currentStep === STEPS.length - 1 ? 'Get Started' : 'Next Step'}</span>
               <ArrowRight size={16} />
             </button>
           </div>

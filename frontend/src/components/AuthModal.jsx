@@ -86,18 +86,18 @@ export default function AuthModal({ onClose, initialMode = 'login' }) {
         
         {/* Header */}
         <div style={{
-          padding: '20px 24px',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+          padding: '24px 28px',
+          borderBottom: '1px solid rgba(180, 170, 160, 0.25)',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          background: 'rgba(15, 23, 42, 0.7)'
+          background: 'var(--bg-sunken)'
         }}>
           <div>
-            <span style={{ fontSize: '0.75rem', color: '#10b981', fontWeight: 700, textTransform: 'uppercase' }}>
+            <span style={{ fontSize: '0.75rem', color: '#ff6b57', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
               CSMS Security Gateway
             </span>
-            <h3 style={{ fontSize: '1.25rem', color: '#f8fafc', marginTop: '2px' }}>
+            <h3 style={{ fontSize: '1.3rem', color: 'var(--text-heading)', marginTop: '2px', fontWeight: 800 }}>
               {mode === 'login' && 'Sign In to Your Account'}
               {mode === 'register' && `Register as ${role === 'driver' ? 'EV Driver' : 'Station Operator'}`}
               {mode === 'verify' && 'Verify Email Verification Code'}
@@ -105,23 +105,24 @@ export default function AuthModal({ onClose, initialMode = 'login' }) {
               {mode === 'reset' && 'Set New Password'}
             </h3>
           </div>
-          <button onClick={onClose} style={{ background: 'transparent', border: 'none', color: '#94a3b8', cursor: 'pointer' }}>
-            <X size={20} />
+          <button onClick={onClose} style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: '4px' }}>
+            <X size={22} />
           </button>
         </div>
 
         {/* Content */}
-        <div style={{ padding: '24px' }}>
+        <div style={{ padding: '28px' }}>
           
           {error && (
             <div style={{
-              background: 'rgba(239, 68, 68, 0.15)',
-              border: '1px solid rgba(239, 68, 68, 0.3)',
-              color: '#fca5a5',
-              padding: '10px 14px',
-              borderRadius: '8px',
-              fontSize: '0.85rem',
-              marginBottom: '16px'
+              background: 'rgba(225, 29, 72, 0.1)',
+              border: '1px solid rgba(225, 29, 72, 0.3)',
+              color: '#b91c1c',
+              padding: '12px 16px',
+              borderRadius: 'var(--radius-md)',
+              fontSize: '0.88rem',
+              fontWeight: 600,
+              marginBottom: '18px'
             }}>
               {error}
             </div>
@@ -129,13 +130,14 @@ export default function AuthModal({ onClose, initialMode = 'login' }) {
 
           {successMsg && (
             <div style={{
-              background: 'rgba(16, 185, 129, 0.15)',
-              border: '1px solid #10b981',
-              color: '#34d399',
-              padding: '10px 14px',
-              borderRadius: '8px',
-              fontSize: '0.85rem',
-              marginBottom: '16px'
+              background: 'rgba(5, 150, 105, 0.12)',
+              border: '1px solid #059669',
+              color: '#059669',
+              padding: '12px 16px',
+              borderRadius: 'var(--radius-md)',
+              fontSize: '0.88rem',
+              fontWeight: 700,
+              marginBottom: '18px'
             }}>
               ✓ {successMsg}
             </div>
@@ -143,28 +145,26 @@ export default function AuthModal({ onClose, initialMode = 'login' }) {
 
           {/* Quick Demo Presets Bar */}
           {mode === 'login' && (
-            <div style={{ marginBottom: '20px', background: 'rgba(255, 255, 255, 0.03)', padding: '12px', borderRadius: '10px' }}>
-              <span style={{ fontSize: '0.75rem', color: '#10b981', fontWeight: 700, textTransform: 'uppercase' }}>
+            <div style={{ marginBottom: '22px', background: 'var(--bg-sunken)', boxShadow: 'var(--neu-sunken)', border: '1px solid rgba(255, 255, 255, 0.6)', padding: '16px', borderRadius: 'var(--radius-md)' }}>
+              <span style={{ fontSize: '0.75rem', color: '#ff6b57', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                 ⚡ Quick 1-Click Role Login:
               </span>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px', marginTop: '8px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginTop: '10px' }}>
                 {DEMO_PRESETS.map((p, idx) => (
                   <button
                     key={idx}
                     type="button"
                     onClick={() => handleSelectPreset(p)}
+                    className="btn-secondary"
                     style={{
-                      background: 'rgba(255, 255, 255, 0.05)',
-                      border: '1px solid var(--border-color)',
-                      borderRadius: '6px',
-                      padding: '6px 8px',
-                      color: '#cbd5e1',
-                      fontSize: '0.75rem',
+                      padding: '8px 12px',
+                      borderRadius: 'var(--radius-sm)',
+                      fontSize: '0.78rem',
                       textAlign: 'left',
-                      cursor: 'pointer'
+                      justifyContent: 'flex-start'
                     }}
                   >
-                    <div style={{ fontWeight: 600, color: '#f8fafc' }}>{p.label}</div>
+                    <div style={{ fontWeight: 700, color: 'var(--text-heading)' }}>{p.label}</div>
                   </button>
                 ))}
               </div>
@@ -176,54 +176,38 @@ export default function AuthModal({ onClose, initialMode = 'login' }) {
             
             {mode === 'register' && (
               <>
-                <div style={{ display: 'flex', gap: '8px', marginBottom: '14px' }}>
+                <div className="neu-segmented-track" style={{ width: '100%', marginBottom: '16px', boxSizing: 'border-box' }}>
                   <button
                     type="button"
                     onClick={() => setRole('driver')}
-                    style={{
-                      flex: 1,
-                      padding: '8px',
-                      borderRadius: '6px',
-                      background: role === 'driver' ? '#10b981' : 'rgba(255, 255, 255, 0.05)',
-                      color: role === 'driver' ? '#fff' : '#94a3b8',
-                      border: 'none',
-                      fontWeight: 600,
-                      cursor: 'pointer'
-                    }}
+                    className={`neu-segmented-item ${role === 'driver' ? 'active' : ''}`}
+                    style={{ flex: 1, textAlign: 'center' }}
                   >
                     Driver Account
                   </button>
                   <button
                     type="button"
                     onClick={() => setRole('operator')}
-                    style={{
-                      flex: 1,
-                      padding: '8px',
-                      borderRadius: '6px',
-                      background: role === 'operator' ? '#3b82f6' : 'rgba(255, 255, 255, 0.05)',
-                      color: role === 'operator' ? '#fff' : '#94a3b8',
-                      border: 'none',
-                      fontWeight: 600,
-                      cursor: 'pointer'
-                    }}
+                    className={`neu-segmented-item ${role === 'operator' ? 'active' : ''}`}
+                    style={{ flex: 1, textAlign: 'center' }}
                   >
                     Station Operator
                   </button>
                 </div>
 
-                <div style={{ marginBottom: '12px' }}>
+                <div style={{ marginBottom: '14px' }}>
                   <label>Full Name</label>
                   <input type="text" required value={name} onChange={e => setName(e.target.value)} placeholder="e.g. Siddh Sakariya" />
                 </div>
 
                 {role === 'operator' && (
-                  <div style={{ marginBottom: '12px' }}>
+                  <div style={{ marginBottom: '14px' }}>
                     <label>Company / Organization Name (Account.Register.Operator)</label>
                     <input type="text" required value={organizationName} onChange={e => setOrganizationName(e.target.value)} placeholder="e.g. EcoVolt Charging Corp" />
                   </div>
                 )}
 
-                <div style={{ marginBottom: '12px' }}>
+                <div style={{ marginBottom: '14px' }}>
                   <label>Phone Number</label>
                   <input type="text" required value={phone} onChange={e => setPhone(e.target.value)} />
                 </div>
@@ -232,20 +216,20 @@ export default function AuthModal({ onClose, initialMode = 'login' }) {
 
             {mode !== 'verify' && (
               <>
-                <div style={{ marginBottom: '12px' }}>
+                <div style={{ marginBottom: '14px' }}>
                   <label>Email Address</label>
                   <input type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder="driver@evtravel.com" />
                 </div>
 
                 {mode === 'reset' && (
-                  <div style={{ marginBottom: '12px' }}>
+                  <div style={{ marginBottom: '14px' }}>
                     <label>6-Digit Reset Code (sample: 654321)</label>
                     <input type="text" required value={otpCode} onChange={e => setOtpCode(e.target.value)} placeholder="654321" />
                   </div>
                 )}
 
                 {mode !== 'forgot' && (
-                  <div style={{ marginBottom: '16px' }}>
+                  <div style={{ marginBottom: '18px' }}>
                     <label>{mode === 'reset' ? 'New Password' : 'Password'}</label>
                     <input type="password" required value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" />
                   </div>
@@ -254,16 +238,16 @@ export default function AuthModal({ onClose, initialMode = 'login' }) {
             )}
 
             {mode === 'verify' && (
-              <div style={{ marginBottom: '18px' }}>
+              <div style={{ marginBottom: '20px' }}>
                 <label>6-Digit Verification Code (Account.Register.Verify)</label>
-                <input type="text" required value={otpCode} onChange={e => setOtpCode(e.target.value)} placeholder="123456" style={{ letterSpacing: '0.2em', textAlign: 'center', fontSize: '1.2rem' }} />
-                <div style={{ fontSize: '0.75rem', color: '#10b981', marginTop: '4px' }}>
+                <input type="text" required value={otpCode} onChange={e => setOtpCode(e.target.value)} placeholder="123456" style={{ letterSpacing: '0.2em', textAlign: 'center', fontSize: '1.3rem', fontWeight: 800 }} />
+                <div style={{ fontSize: '0.78rem', color: '#ff6b57', marginTop: '6px', fontWeight: 700 }}>
                   Sample demo code: <strong>123456</strong>
                 </div>
               </div>
             )}
 
-            <button type="submit" disabled={loading} className="btn-primary" style={{ width: '100%', padding: '12px', fontSize: '0.95rem' }}>
+            <button type="submit" disabled={loading} className="btn-primary" style={{ width: '100%', padding: '12px', fontSize: '0.98rem' }}>
               {loading ? 'Processing...' : (
                 mode === 'login' ? 'Sign In' :
                 mode === 'register' ? 'Register Account' :
@@ -274,18 +258,18 @@ export default function AuthModal({ onClose, initialMode = 'login' }) {
           </form>
 
           {/* Toggle modes */}
-          <div style={{ marginTop: '16px', display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', color: '#94a3b8' }}>
+          <div style={{ marginTop: '18px', display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
             {mode === 'login' ? (
               <>
-                <span onClick={() => setMode('register')} style={{ color: '#10b981', cursor: 'pointer', fontWeight: 600 }}>
+                <span onClick={() => setMode('register')} style={{ color: '#ff6b57', cursor: 'pointer', fontWeight: 700 }}>
                   Need an account? Register
                 </span>
-                <span onClick={() => setMode('forgot')} style={{ color: '#38bdf8', cursor: 'pointer' }}>
+                <span onClick={() => setMode('forgot')} style={{ color: 'var(--text-main)', cursor: 'pointer', fontWeight: 600 }}>
                   Forgot Password?
                 </span>
               </>
             ) : (
-              <span onClick={() => setMode('login')} style={{ color: '#10b981', cursor: 'pointer', fontWeight: 600 }}>
+              <span onClick={() => setMode('login')} style={{ color: '#ff6b57', cursor: 'pointer', fontWeight: 700 }}>
                 Already have an account? Sign In
               </span>
             )}

@@ -60,27 +60,27 @@ export default function StationFinder({ onSelectStation, onBookCharger }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
       
       {/* Top Search & Filter Bar */}
-      <div className="glass-panel" style={{ padding: '16px 20px' }}>
-        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
+      <div className="glass-panel" style={{ padding: '20px 24px' }}>
+        <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', alignItems: 'center' }}>
           
           {/* Search Input (Locate.Search.Manual) */}
           <div style={{ position: 'relative', flex: '1 1 280px' }}>
-            <Search size={18} color="#94a3b8" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
+            <Search size={18} color="var(--text-dim)" style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)' }} />
             <input
               type="text"
               placeholder="Search by station name, neighborhood, or address..."
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              style={{ paddingLeft: '38px' }}
+              style={{ paddingLeft: '42px' }}
             />
           </div>
 
           {/* Quick Connector Dropdown */}
-          <div style={{ flex: '0 1 180px' }}>
+          <div style={{ flex: '0 1 190px' }}>
             <select
               value={connectorFilter}
               onChange={e => setConnectorFilter(e.target.value)}
-              style={{ padding: '9px 12px' }}
+              style={{ padding: '11px 14px' }}
             >
               <option value="">All Connectors</option>
               <option value="CCS2">CCS2 (DC Fast)</option>
@@ -94,9 +94,9 @@ export default function StationFinder({ onSelectStation, onBookCharger }) {
           <button
             onClick={() => setShowFilters(!showFilters)}
             className="btn-secondary"
-            style={{ padding: '9px 14px', fontSize: '0.9rem' }}
+            style={{ padding: '10px 18px', fontSize: '0.9rem' }}
           >
-            <SlidersHorizontal size={16} />
+            <SlidersHorizontal size={16} color={showFilters ? '#ff6b57' : 'currentColor'} />
             <span>Filters {(speedFilter || availableOnly || radiusKm !== 15) ? '• Active' : ''}</span>
           </button>
         </div>
@@ -104,12 +104,12 @@ export default function StationFinder({ onSelectStation, onBookCharger }) {
         {/* Collapsible Advanced Filters (Locate.Filter.Speed, Radius, Availability) */}
         {showFilters && (
           <div style={{
-            marginTop: '16px',
-            paddingTop: '16px',
-            borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+            marginTop: '20px',
+            paddingTop: '20px',
+            borderTop: '1px solid rgba(180, 170, 160, 0.25)',
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-            gap: '16px',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+            gap: '20px',
             animation: 'fadeIn 0.2s ease'
           }}>
             {/* Speed Category Filter */}
@@ -126,7 +126,7 @@ export default function StationFinder({ onSelectStation, onBookCharger }) {
             {/* Radius Slider (Locate.Search.Radius) */}
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
-                <label style={{ margin: 0 }}>Search Radius: <strong>{radiusKm} km</strong></label>
+                <label style={{ margin: 0 }}>Search Radius: <strong style={{ color: '#ff6b57' }}>{radiusKm} km</strong></label>
               </div>
               <input
                 type="range"
@@ -135,9 +135,9 @@ export default function StationFinder({ onSelectStation, onBookCharger }) {
                 step="1"
                 value={radiusKm}
                 onChange={e => setRadiusKm(parseInt(e.target.value))}
-                style={{ width: '100%', accentColor: '#10b981' }}
+                style={{ width: '100%' }}
               />
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.7rem', color: '#64748b' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>
                 <span>2 km</span>
                 <span>15 km (Default)</span>
                 <span>50 km</span>
@@ -145,15 +145,14 @@ export default function StationFinder({ onSelectStation, onBookCharger }) {
             </div>
 
             {/* Availability Checkbox (Locate.Filter.Availability) */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', paddingTop: '18px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', paddingTop: '20px' }}>
               <input
                 type="checkbox"
                 id="availOnly"
                 checked={availableOnly}
                 onChange={e => setAvailableOnly(e.target.checked)}
-                style={{ width: '18px', height: '18px', accentColor: '#10b981', cursor: 'pointer' }}
               />
-              <label htmlFor="availOnly" style={{ margin: 0, cursor: 'pointer', color: '#f8fafc' }}>
+              <label htmlFor="availOnly" style={{ margin: 0, cursor: 'pointer', color: 'var(--text-main)', fontWeight: 600 }}>
                 Only show stations with &ge;1 Available Charger
               </label>
             </div>
@@ -165,7 +164,7 @@ export default function StationFinder({ onSelectStation, onBookCharger }) {
       <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '20px' }}>
         
         {/* Interactive Map View */}
-        <div className="glass-panel" style={{ padding: '8px', minHeight: '440px', position: 'relative' }}>
+        <div className="glass-panel" style={{ padding: '10px', minHeight: '440px', position: 'relative' }}>
           <MapView
             stations={stations}
             userLocation={userLocation}
@@ -177,30 +176,30 @@ export default function StationFinder({ onSelectStation, onBookCharger }) {
 
         {/* Stations Results List (Locate.Results.Display) */}
         <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
-            <h3 style={{ fontSize: '1.2rem', color: '#f8fafc', fontWeight: 700 }}>
-              Available Stations Nearby ({stations.length})
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+            <h3 style={{ fontSize: '1.25rem', color: 'var(--text-heading)', fontWeight: 800 }}>
+              Available Stations Nearby <span style={{ color: '#ff6b57' }}>({stations.length})</span>
             </h3>
-            <span style={{ fontSize: '0.8rem', color: '#94a3b8' }}>
+            <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)', fontWeight: 600 }}>
               Showing results within {radiusKm} km of selected position
             </span>
           </div>
 
           {loading ? (
-            <div style={{ padding: '40px', textAlign: 'center', color: '#94a3b8' }}>
+            <div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-muted)' }}>
               Searching charging stations...
             </div>
           ) : stations.length === 0 ? (
             /* Locate.Results.Empty */
-            <div className="glass-panel" style={{ padding: '40px', textAlign: 'center' }}>
-              <Zap size={44} color="#64748b" style={{ margin: '0 auto 12px' }} />
-              <h4 style={{ fontSize: '1.15rem', color: '#f8fafc' }}>No Charging Stations Found</h4>
-              <p style={{ color: '#94a3b8', fontSize: '0.9rem', maxWidth: '480px', margin: '8px auto 16px' }}>
-                No stations match your current location and filter criteria. Try widening the search radius (e.g. 25km or 50km) or clearing connector and speed filters.
+            <div className="glass-panel" style={{ padding: '48px', textAlign: 'center' }}>
+              <Zap size={48} color="var(--primary)" style={{ margin: '0 auto 14px' }} />
+              <h4 style={{ fontSize: '1.25rem', color: 'var(--text-heading)' }}>No Charging Stations Found</h4>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.92rem', maxWidth: '480px', margin: '8px auto 20px', lineHeight: 1.5 }}>
+                No stations match your current location and filter criteria. Try widening the search radius or clearing connector and speed filters.
               </p>
               <button
                 onClick={() => { setRadiusKm(35); setConnectorFilter(''); setSpeedFilter(''); setAvailableOnly(false); }}
-                className="btn-secondary"
+                className="btn-primary"
               >
                 Reset Filters & Widen Radius
               </button>
@@ -209,14 +208,14 @@ export default function StationFinder({ onSelectStation, onBookCharger }) {
             <div style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-              gap: '16px'
+              gap: '20px'
             }}>
               {stations.map(stn => (
                 <div
                   key={stn.id}
                   className="glass-panel glass-panel-hover"
                   style={{
-                    padding: '18px',
+                    padding: '22px',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
@@ -226,34 +225,36 @@ export default function StationFinder({ onSelectStation, onBookCharger }) {
                 >
                   <div>
                     {/* Top status & distance badge */}
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
                       <span className={`status-badge ${stn.availableCount > 0 ? 'available' : 'reserved'}`}>
                         ● {stn.availableCount} of {stn.totalChargers} Available
                       </span>
-                      <span style={{ fontSize: '0.8rem', color: '#38bdf8', fontWeight: 700 }}>
+                      <span style={{ fontSize: '0.82rem', color: '#ff6b57', fontWeight: 800 }}>
                         {stn.distanceKm} km away
                       </span>
                     </div>
 
-                    <h4 style={{ fontSize: '1.1rem', color: '#f8fafc', marginBottom: '4px' }}>
+                    <h4 style={{ fontSize: '1.15rem', color: 'var(--text-heading)', marginBottom: '6px', fontWeight: 700 }}>
                       {stn.name}
                     </h4>
-                    <p style={{ fontSize: '0.8rem', color: '#94a3b8', lineHeight: 1.3, marginBottom: '12px' }}>
+                    <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: 1.4, marginBottom: '16px' }}>
                       {stn.address}
                     </p>
 
                     {/* Connectors pills */}
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '14px' }}>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '16px' }}>
                       {Array.from(new Set(stn.chargers.map(c => c.connector_type))).map(conn => (
                         <span
                           key={conn}
                           style={{
-                            background: 'rgba(255, 255, 255, 0.05)',
-                            border: '1px solid var(--border-color)',
-                            fontSize: '0.75rem',
-                            color: '#cbd5e1',
-                            padding: '3px 8px',
-                            borderRadius: '4px'
+                            background: 'var(--bg-sunken)',
+                            border: '1px solid rgba(255, 255, 255, 0.6)',
+                            boxShadow: 'var(--neu-sunken)',
+                            fontSize: '0.78rem',
+                            color: 'var(--text-main)',
+                            fontWeight: 700,
+                            padding: '4px 10px',
+                            borderRadius: '999px'
                           }}
                         >
                           ⚡ {conn}
@@ -267,13 +268,14 @@ export default function StationFinder({ onSelectStation, onBookCharger }) {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    paddingTop: '12px',
-                    borderTop: '1px solid rgba(255, 255, 255, 0.06)'
+                    paddingTop: '16px',
+                    borderTop: '1px solid rgba(180, 170, 160, 0.2)'
                   }}>
                     <div>
-                      <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Starting from</span>
-                      <div style={{ fontSize: '1.15rem', fontWeight: 800, color: '#10b981' }}>
-                        ₹{stn.minPrice.toFixed(2)}<span style={{ fontSize: '0.75rem', color: '#94a3b8', fontWeight: 400 }}> / kWh</span>
+                      <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>Starting from</span>
+                      <div style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-heading)' }}>
+                        <span style={{ color: '#ff6b57' }}>₹{stn.minPrice.toFixed(2)}</span>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 500 }}> / kWh</span>
                       </div>
                     </div>
 
@@ -283,7 +285,7 @@ export default function StationFinder({ onSelectStation, onBookCharger }) {
                         onSelectStation(stn);
                       }}
                       className="btn-primary"
-                      style={{ padding: '8px 14px', fontSize: '0.85rem' }}
+                      style={{ padding: '9px 18px', fontSize: '0.85rem' }}
                     >
                       <span>Details & Book</span>
                       <ArrowRight size={15} />

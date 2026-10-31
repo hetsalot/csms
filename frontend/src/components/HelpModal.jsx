@@ -37,68 +37,69 @@ export default function HelpModal({ onClose }) {
         
         {/* Header */}
         <div style={{
-          padding: '20px 24px',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+          padding: '24px 28px',
+          borderBottom: '1px solid rgba(180, 170, 160, 0.25)',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          background: 'rgba(15, 23, 42, 0.7)'
+          background: 'var(--bg-sunken)'
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <HelpCircle size={20} color="#10b981" />
-            <h3 style={{ fontSize: '1.2rem', color: '#f8fafc' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <HelpCircle size={22} color="#ff6b57" />
+            <h3 style={{ fontSize: '1.25rem', color: 'var(--text-heading)', fontWeight: 800 }}>
               CSMS Help Center & Documentation (UD-1)
             </h3>
           </div>
-          <button onClick={onClose} style={{ background: 'transparent', border: 'none', color: '#94a3b8', cursor: 'pointer' }}>
-            <X size={20} />
+          <button onClick={onClose} style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: '4px' }}>
+            <X size={22} />
           </button>
         </div>
 
         {/* FAQs */}
-        <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        <div style={{ padding: '26px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
           {FAQS.map((faq, idx) => {
             const isOpen = openIdx === idx;
             return (
               <div
                 key={idx}
+                className="glass-panel"
                 style={{
-                  background: 'rgba(255, 255, 255, 0.02)',
-                  border: '1px solid var(--border-color)',
-                  borderRadius: '10px',
-                  overflow: 'hidden'
+                  borderRadius: 'var(--radius-md)',
+                  overflow: 'hidden',
+                  boxShadow: isOpen ? 'var(--neu-raised-sm)' : 'var(--neu-raised-sm)'
                 }}
               >
                 <button
                   onClick={() => setOpenIdx(isOpen ? -1 : idx)}
                   style={{
                     width: '100%',
-                    padding: '14px 16px',
+                    padding: '16px 20px',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
                     background: 'transparent',
                     border: 'none',
-                    color: '#f8fafc',
+                    color: 'var(--text-heading)',
                     fontFamily: 'var(--font-heading)',
-                    fontWeight: 600,
-                    fontSize: '0.95rem',
+                    fontWeight: 700,
+                    fontSize: '0.96rem',
                     textAlign: 'left',
                     cursor: 'pointer'
                   }}
                 >
                   <span>{faq.q}</span>
-                  <span style={{ color: '#10b981', fontSize: '1.2rem', transform: isOpen ? 'rotate(45deg)' : 'none', transition: 'transform 0.2s' }}>
+                  <span style={{ color: '#ff6b57', fontSize: '1.3rem', fontWeight: 800, transform: isOpen ? 'rotate(45deg)' : 'none', transition: 'transform 0.2s ease' }}>
                     +
                   </span>
                 </button>
                 {isOpen && (
                   <div style={{
-                    padding: '0 16px 14px 16px',
-                    color: '#cbd5e1',
-                    fontSize: '0.85rem',
+                    padding: '0 20px 18px 20px',
+                    color: 'var(--text-muted)',
+                    fontSize: '0.88rem',
                     lineHeight: 1.5,
-                    borderTop: '1px solid rgba(255, 255, 255, 0.04)'
+                    borderTop: '1px solid rgba(180, 170, 160, 0.2)',
+                    fontWeight: 500
                   }}>
                     {faq.a}
                   </div>
@@ -109,8 +110,8 @@ export default function HelpModal({ onClose }) {
         </div>
 
         {/* Footer */}
-        <div style={{ padding: '16px 24px', borderTop: '1px solid var(--border-color)', background: 'rgba(15, 23, 42, 0.5)', display: 'flex', justifyContent: 'flex-end' }}>
-          <button onClick={onClose} className="btn-primary" style={{ padding: '8px 18px', fontSize: '0.85rem' }}>
+        <div style={{ padding: '18px 28px', borderTop: '1px solid rgba(180, 170, 160, 0.25)', background: 'var(--bg-sunken)', display: 'flex', justifyContent: 'flex-end' }}>
+          <button onClick={onClose} className="btn-primary" style={{ padding: '9px 24px', fontSize: '0.88rem' }}>
             Close Help
           </button>
         </div>

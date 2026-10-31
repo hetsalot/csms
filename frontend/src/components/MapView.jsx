@@ -150,31 +150,33 @@ export default function MapView({
 
       // Create rich popup content
       const popupDiv = document.createElement('div');
-      popupDiv.style.minWidth = '220px';
+      popupDiv.style.minWidth = '240px';
       popupDiv.style.fontFamily = 'var(--font-body)';
+      popupDiv.style.padding = '4px';
       popupDiv.innerHTML = `
         <div style="margin-bottom: 8px;">
-          <h4 style="font-size: 1rem; font-weight: 700; color: #f8fafc; margin-bottom: 4px;">${stn.name}</h4>
-          <p style="font-size: 0.8rem; color: #94a3b8; line-height: 1.3;">${stn.address}</p>
+          <h4 style="font-size: 1.05rem; font-weight: 800; color: #1e1915; margin-bottom: 4px;">${stn.name}</h4>
+          <p style="font-size: 0.82rem; color: #5c5148; line-height: 1.35;">${stn.address}</p>
         </div>
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 0.85rem;">
-          <span style="color: ${pinColor}; font-weight: 600;">● ${statusText}</span>
-          <span style="color: #38bdf8; font-weight: 700;">From ₹${stn.minPrice}/kWh</span>
+          <span style="color: ${pinColor}; font-weight: 700;">● ${statusText}</span>
+          <span style="color: #ff6b57; font-weight: 800;">From ₹${stn.minPrice}/kWh</span>
         </div>
-        <div style="font-size: 0.75rem; color: #cbd5e1; margin-bottom: 10px;">
-          Distance: <strong>${stn.distanceKm || 0} km</strong> • Hours: <strong>${stn.operating_hours}</strong>
+        <div style="font-size: 0.78rem; color: #7c7066; margin-bottom: 12px; font-weight: 600;">
+          Distance: <strong style="color: #1e1915;">${stn.distanceKm || 0} km</strong> • Hours: <strong style="color: #1e1915;">${stn.operating_hours}</strong>
         </div>
         <button id="btn-select-${stn.id}" style="
           width: 100%;
-          background: #10b981;
+          background: linear-gradient(135deg, #ff7a63 0%, #ff5742 100%);
           color: white;
-          border: none;
-          padding: 8px 12px;
-          border-radius: 6px;
-          font-weight: 600;
-          font-size: 0.85rem;
+          border: 1px solid rgba(255, 255, 255, 0.4);
+          padding: 9px 14px;
+          border-radius: 999px;
+          font-weight: 700;
+          font-size: 0.88rem;
           cursor: pointer;
-          transition: background 0.2s;
+          box-shadow: 0 0 12px rgba(255, 107, 87, 0.45);
+          transition: transform 0.15s ease;
         ">
           View Chargers & Book Slot
         </button>
@@ -217,7 +219,7 @@ export default function MapView({
   };
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: '100%', minHeight: '420px', borderRadius: '16px', overflow: 'hidden' }}>
+    <div style={{ position: 'relative', width: '100%', height: '100%', minHeight: '420px', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
       <div ref={mapContainerRef} style={{ width: '100%', height: '100%', minHeight: '420px' }} />
 
       {/* Floating Map Controls */}
@@ -228,24 +230,24 @@ export default function MapView({
         zIndex: 500,
         display: 'flex',
         flexDirection: 'column',
-        gap: '8px'
+        gap: '10px'
       }}>
         <button
           onClick={handleUseGPS}
           title="Use device GPS location (BR-1)"
           className="btn-secondary"
-          style={{ background: 'rgba(15, 23, 42, 0.85)', backdropFilter: 'blur(8px)', padding: '8px 12px', fontSize: '0.85rem' }}
+          style={{ padding: '9px 14px', fontSize: '0.85rem' }}
         >
-          <Navigation size={15} color="#38bdf8" />
+          <Navigation size={15} color="#ff6b57" />
           <span>My GPS</span>
         </button>
         <button
           onClick={handleRecenter}
           title="Recenter on search point"
           className="btn-secondary"
-          style={{ background: 'rgba(15, 23, 42, 0.85)', backdropFilter: 'blur(8px)', padding: '8px 12px', fontSize: '0.85rem' }}
+          style={{ padding: '9px 14px', fontSize: '0.85rem' }}
         >
-          <MapPin size={15} color="#10b981" />
+          <MapPin size={15} color="#059669" />
           <span>Center</span>
         </button>
       </div>
@@ -256,19 +258,22 @@ export default function MapView({
         bottom: '16px',
         left: '16px',
         zIndex: 500,
-        background: 'rgba(15, 23, 42, 0.88)',
-        backdropFilter: 'blur(10px)',
-        border: '1px solid rgba(255, 255, 255, 0.1)',
-        borderRadius: '10px',
-        padding: '8px 14px',
-        fontSize: '0.8rem',
-        color: '#94a3b8',
+        background: 'rgba(232, 226, 220, 0.95)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        border: '1px solid rgba(255, 255, 255, 0.8)',
+        boxShadow: 'var(--neu-raised-sm)',
+        borderRadius: 'var(--radius-full)',
+        padding: '9px 18px',
+        fontSize: '0.82rem',
+        fontWeight: 600,
+        color: 'var(--text-main)',
         display: 'flex',
         alignItems: 'center',
         gap: '8px'
       }}>
-        <Zap size={14} color="#10b981" />
-        <span>Click anywhere on the map to set custom search center • Radius: {radiusKm} km</span>
+        <Zap size={14} color="#ff6b57" />
+        <span>Click anywhere on the map to set custom search center • Radius: <strong style={{ color: '#ff6b57' }}>{radiusKm} km</strong></span>
       </div>
     </div>
   );

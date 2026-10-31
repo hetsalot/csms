@@ -146,25 +146,31 @@ function MainApp() {
             bottom: '24px',
             right: '24px',
             zIndex: 1100,
-            background: toast.level === 'danger' ? '#ef4444' : toast.level === 'warning' ? '#f59e0b' : '#10b981',
-            color: '#ffffff',
-            padding: '14px 20px',
-            borderRadius: '12px',
-            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.4)',
+            background: 'var(--bg-surface)',
+            color: 'var(--text-main)',
+            padding: '16px 20px',
+            borderRadius: 'var(--radius-lg)',
+            boxShadow: '8px 8px 22px var(--neu-dark), -8px -8px 22px var(--neu-light)',
+            borderLeft: `5px solid ${toast.level === 'danger' ? '#e11d48' : toast.level === 'warning' ? '#d97706' : '#ff6b57'}`,
+            border: '1px solid rgba(255, 255, 255, 0.8)',
             maxWidth: '380px',
             animation: 'fadeIn 0.3s ease-out',
             display: 'flex',
             alignItems: 'flex-start',
             gap: '12px'
           }}>
-            {toast.level === 'danger' ? <AlertTriangle size={22} /> : <Zap size={22} />}
+            {toast.level === 'danger' ? (
+              <AlertTriangle size={22} color="#e11d48" />
+            ) : (
+              <Zap size={22} color="#ff6b57" />
+            )}
             <div style={{ flex: 1 }}>
-              <div style={{ fontWeight: 800, fontSize: '0.9rem' }}>{toast.title}</div>
-              <div style={{ fontSize: '0.8rem', opacity: 0.95, marginTop: '2px', lineHeight: 1.3 }}>{toast.msg}</div>
+              <div style={{ fontWeight: 800, fontSize: '0.9rem', color: 'var(--text-heading)' }}>{toast.title}</div>
+              <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginTop: '2px', lineHeight: 1.35 }}>{toast.msg}</div>
             </div>
             <button
               onClick={() => setToast(null)}
-              style={{ background: 'transparent', border: 'none', color: '#ffffff', cursor: 'pointer', fontSize: '1rem' }}
+              style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: '1.1rem', padding: '0 4px' }}
             >
               ✕
             </button>
@@ -203,21 +209,22 @@ function MainApp() {
 
       {/* Footer */}
       <footer style={{
-        borderTop: '1px solid rgba(255, 255, 255, 0.06)',
+        borderTop: '1px solid rgba(255, 255, 255, 0.7)',
         padding: '24px 20px',
         textAlign: 'center',
-        color: '#64748b',
-        fontSize: '0.8rem',
-        background: 'rgba(11, 15, 25, 0.9)'
+        color: 'var(--text-muted)',
+        fontSize: '0.82rem',
+        background: 'var(--bg-sunken)',
+        boxShadow: 'inset 0 3px 6px rgba(180, 170, 160, 0.2)'
       }}>
         <div style={{ maxWidth: '1440px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
           <div>
-            <strong>VoltFlow CSMS Release 1.0</strong> • Software Engineering Laboratory Project
+            <strong style={{ color: 'var(--text-main)' }}>VoltFlow CSMS Release 1.0</strong> • Software Engineering Laboratory Project
           </div>
           <div>
-            Authors: <strong>Siddh Sakariya</strong> (2024300200) & <strong>Het Salot</strong> (2024300201) — Comps C3
+            Authors: <strong style={{ color: 'var(--text-main)' }}>Siddh Sakariya</strong> (2024300200) & <strong style={{ color: 'var(--text-main)' }}>Het Salot</strong> (2024300201) — Comps C3
           </div>
-          <div style={{ color: '#10b981' }}>
+          <div style={{ color: '#ff6b57', fontWeight: 600 }}>
             ● OCPP 2.0.1 WebSocket Compliant • RESTful Architecture • Relational SQL
           </div>
         </div>

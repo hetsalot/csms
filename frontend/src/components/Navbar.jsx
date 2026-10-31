@@ -19,9 +19,11 @@ export default function Navbar({
       position: 'sticky',
       top: 0,
       zIndex: 900,
-      background: 'rgba(11, 15, 25, 0.85)',
+      background: 'rgba(232, 226, 220, 0.94)',
       backdropFilter: 'blur(16px)',
-      borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+      WebkitBackdropFilter: 'blur(16px)',
+      borderBottom: '1px solid rgba(255, 255, 255, 0.8)',
+      boxShadow: '0 4px 18px rgba(188, 178, 169, 0.45)',
       padding: '12px 24px'
     }}>
       <div style={{ maxWidth: '1440px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -29,48 +31,49 @@ export default function Navbar({
         {/* Brand Logo & Tagline */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px', cursor: 'pointer' }} onClick={() => onNavigate('finder')}>
           <div style={{
-            width: '40px',
-            height: '40px',
-            borderRadius: '12px',
-            background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+            width: '42px',
+            height: '42px',
+            borderRadius: '14px',
+            background: 'var(--primary-gradient)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            boxShadow: '0 0 20px rgba(16, 185, 129, 0.45)'
+            boxShadow: 'var(--neu-raised-sm), 0 0 16px var(--primary-glow)',
+            border: '1px solid rgba(255, 255, 255, 0.7)'
           }}>
             <Zap size={22} color="white" />
           </div>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span style={{ fontSize: '1.25rem', fontWeight: 800, color: '#f8fafc', letterSpacing: '-0.02em' }}>
+              <span style={{ fontSize: '1.3rem', fontWeight: 800, color: 'var(--text-heading)', letterSpacing: '-0.02em' }}>
                 VoltFlow
               </span>
-              <span style={{ fontSize: '0.65rem', background: 'rgba(16, 185, 129, 0.15)', color: '#34d399', border: '1px solid rgba(16, 185, 129, 0.3)', padding: '2px 6px', borderRadius: '4px', fontWeight: 700 }}>
+              <span style={{
+                fontSize: '0.68rem',
+                background: 'rgba(255, 107, 87, 0.12)',
+                color: '#ff5742',
+                border: '1px solid rgba(255, 107, 87, 0.3)',
+                padding: '2px 8px',
+                borderRadius: '999px',
+                fontWeight: 800,
+                letterSpacing: '0.04em'
+              }}>
                 CSMS v1.0
               </span>
             </div>
-            <div style={{ fontSize: '0.7rem', color: '#94a3b8' }}>
+            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>
               EV Charging Station Management System
             </div>
           </div>
         </div>
 
-        {/* Center Nav Links according to active user role */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+        {/* Center Nav Links - Neumorphic Segmented Pill Track */}
+        <div className="neu-segmented-track" style={{ padding: '4px 6px' }}>
           {(role === 'driver' || role === 'guest') && (
             <>
               <button
                 onClick={() => onNavigate('finder')}
-                style={{
-                  background: currentView === 'finder' ? 'rgba(255, 255, 255, 0.08)' : 'transparent',
-                  color: currentView === 'finder' ? '#34d399' : '#cbd5e1',
-                  border: 'none',
-                  padding: '8px 14px',
-                  borderRadius: '8px',
-                  fontWeight: 600,
-                  fontSize: '0.9rem',
-                  cursor: 'pointer'
-                }}
+                className={`neu-segmented-item ${currentView === 'finder' ? 'active' : ''}`}
               >
                 Find Stations
               </button>
@@ -78,31 +81,13 @@ export default function Navbar({
                 <>
                   <button
                     onClick={() => onNavigate('bookings')}
-                    style={{
-                      background: currentView === 'bookings' ? 'rgba(255, 255, 255, 0.08)' : 'transparent',
-                      color: currentView === 'bookings' ? '#34d399' : '#cbd5e1',
-                      border: 'none',
-                      padding: '8px 14px',
-                      borderRadius: '8px',
-                      fontWeight: 600,
-                      fontSize: '0.9rem',
-                      cursor: 'pointer'
-                    }}
+                    className={`neu-segmented-item ${currentView === 'bookings' ? 'active' : ''}`}
                   >
-                    My Bookings & History
+                    My Bookings
                   </button>
                   <button
                     onClick={() => onNavigate('garage')}
-                    style={{
-                      background: currentView === 'garage' ? 'rgba(255, 255, 255, 0.08)' : 'transparent',
-                      color: currentView === 'garage' ? '#34d399' : '#cbd5e1',
-                      border: 'none',
-                      padding: '8px 14px',
-                      borderRadius: '8px',
-                      fontWeight: 600,
-                      fontSize: '0.9rem',
-                      cursor: 'pointer'
-                    }}
+                    className={`neu-segmented-item ${currentView === 'garage' ? 'active' : ''}`}
                   >
                     EV Garage & Cards
                   </button>
@@ -114,16 +99,7 @@ export default function Navbar({
           {role === 'operator' && (
             <button
               onClick={() => onNavigate('operator')}
-              style={{
-                background: 'rgba(255, 255, 255, 0.08)',
-                color: '#34d399',
-                border: 'none',
-                padding: '8px 14px',
-                borderRadius: '8px',
-                fontWeight: 600,
-                fontSize: '0.9rem',
-                cursor: 'pointer'
-              }}
+              className={`neu-segmented-item ${currentView === 'operator' ? 'active' : ''}`}
             >
               Operator Control Hub
             </button>
@@ -132,16 +108,7 @@ export default function Navbar({
           {role === 'admin' && (
             <button
               onClick={() => onNavigate('admin')}
-              style={{
-                background: 'rgba(255, 255, 255, 0.08)',
-                color: '#f59e0b',
-                border: 'none',
-                padding: '8px 14px',
-                borderRadius: '8px',
-                fontWeight: 600,
-                fontSize: '0.9rem',
-                cursor: 'pointer'
-              }}
+              className={`neu-segmented-item ${currentView === 'admin' ? 'active' : ''}`}
             >
               Administrator Portal
             </button>
@@ -159,18 +126,19 @@ export default function Navbar({
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                background: 'rgba(59, 130, 246, 0.15)',
-                border: '1px solid rgba(59, 130, 246, 0.4)',
+                background: 'var(--primary-gradient)',
+                border: '1px solid rgba(255, 255, 255, 0.7)',
                 borderRadius: '999px',
-                padding: '6px 14px',
-                color: '#60a5fa',
-                fontSize: '0.8rem',
+                padding: '7px 16px',
+                color: '#ffffff',
+                fontSize: '0.82rem',
                 fontWeight: 700,
                 cursor: 'pointer',
-                animation: 'pulse-glow 2s infinite'
+                boxShadow: '0 0 16px var(--primary-glow), var(--neu-raised-sm)',
+                animation: 'neu-pulse-glow 2s infinite'
               }}
             >
-              <BatteryCharging size={16} />
+              <BatteryCharging size={16} color="white" />
               <span>Session In Progress</span>
             </button>
           )}
@@ -179,10 +147,10 @@ export default function Navbar({
           <button
             onClick={onOpenWalkthrough}
             className="btn-secondary"
-            style={{ padding: '7px 12px', fontSize: '0.8rem' }}
+            style={{ padding: '8px 14px', fontSize: '0.82rem' }}
             title="Guided Booking Walkthrough (UD-2)"
           >
-            <Compass size={15} color="#10b981" />
+            <Compass size={15} color="#ff6b57" />
             <span>Walkthrough</span>
           </button>
 
@@ -190,10 +158,10 @@ export default function Navbar({
           <button
             onClick={onOpenHelp}
             className="btn-secondary"
-            style={{ padding: '7px 10px', fontSize: '0.8rem' }}
+            style={{ padding: '8px 12px', fontSize: '0.82rem' }}
             title="Online Help & FAQ (UD-1)"
           >
-            <HelpCircle size={16} />
+            <HelpCircle size={16} color="var(--text-main)" />
           </button>
 
           {/* Sign In button for guests */}
@@ -201,7 +169,7 @@ export default function Navbar({
             <button
               onClick={onOpenAuth}
               className="btn-primary"
-              style={{ padding: '7px 14px', fontSize: '0.85rem' }}
+              style={{ padding: '8px 18px', fontSize: '0.88rem' }}
             >
               Sign In
             </button>
@@ -211,57 +179,52 @@ export default function Navbar({
           <div style={{ position: 'relative' }}>
             <button
               onClick={() => setShowRoleMenu(!showRoleMenu)}
+              className="btn-secondary"
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                background: 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid var(--border-color)',
-                padding: '6px 12px',
-                borderRadius: '8px',
-                color: '#f8fafc',
-                fontSize: '0.85rem',
-                cursor: 'pointer'
+                padding: '6px 14px',
+                gap: '10px'
               }}
             >
               <div style={{
                 width: '10px',
                 height: '10px',
                 borderRadius: '50%',
-                background: role === 'admin' ? '#f59e0b' : role === 'operator' ? '#3b82f6' : role === 'driver' ? '#10b981' : '#6b7280'
+                background: role === 'admin' ? '#d97706' : role === 'operator' ? '#0284c7' : role === 'driver' ? '#059669' : '#ff6b57',
+                boxShadow: '0 0 6px currentColor'
               }} />
               <div style={{ textAlign: 'left' }}>
-                <div style={{ fontWeight: 600, lineHeight: 1.1 }}>
+                <div style={{ fontWeight: 700, lineHeight: 1.1, fontSize: '0.88rem', color: 'var(--text-heading)' }}>
                   {user ? user.name.split(' ')[0] : 'Guest User'}
                 </div>
-                <div style={{ fontSize: '0.7rem', color: '#94a3b8', textTransform: 'capitalize' }}>
+                <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'capitalize', fontWeight: 600 }}>
                   {role}
                 </div>
               </div>
-              <ChevronDown size={14} color="#94a3b8" />
+              <ChevronDown size={14} color="var(--text-muted)" />
             </button>
 
             {/* Dropdown Menu */}
             {showRoleMenu && (
               <div style={{
                 position: 'absolute',
-                top: 'calc(100% + 8px)',
+                top: 'calc(100% + 10px)',
                 right: 0,
-                width: '280px',
-                background: '#111827',
-                border: '1px solid rgba(255, 255, 255, 0.12)',
-                borderRadius: '12px',
-                boxShadow: '0 20px 40px rgba(0, 0, 0, 0.6)',
-                padding: '8px',
-                zIndex: 1000
+                width: '290px',
+                background: 'var(--bg-surface)',
+                border: '1px solid rgba(255, 255, 255, 0.8)',
+                borderRadius: 'var(--radius-lg)',
+                boxShadow: 'var(--neu-raised-lg)',
+                padding: '10px',
+                zIndex: 1000,
+                animation: 'scaleUp 0.18s cubic-bezier(0.16, 1, 0.3, 1)'
               }}>
-                <div style={{ padding: '8px', borderBottom: '1px solid rgba(255, 255, 255, 0.06)', marginBottom: '6px' }}>
-                  <span style={{ fontSize: '0.7rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 700 }}>
+                <div style={{ padding: '8px 10px', borderBottom: '1px solid rgba(180, 170, 160, 0.25)', marginBottom: '8px' }}>
+                  <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.04em' }}>
                     Switch Demo User Preset:
                   </span>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                   {DEMO_PRESETS.map((p, idx) => (
                     <button
                       key={idx}
@@ -273,25 +236,29 @@ export default function Navbar({
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'space-between',
-                        padding: '8px 10px',
-                        borderRadius: '6px',
-                        background: user?.email === p.email ? 'rgba(16, 185, 129, 0.15)' : 'transparent',
-                        border: 'none',
-                        color: user?.email === p.email ? '#34d399' : '#cbd5e1',
+                        padding: '10px 12px',
+                        borderRadius: 'var(--radius-md)',
+                        background: user?.email === p.email ? 'var(--primary-gradient)' : 'var(--bg-sunken)',
+                        border: '1px solid rgba(255, 255, 255, 0.5)',
+                        boxShadow: user?.email === p.email ? '0 0 12px var(--primary-glow)' : 'var(--neu-sunken)',
+                        color: user?.email === p.email ? '#ffffff' : 'var(--text-main)',
                         textAlign: 'left',
                         cursor: 'pointer',
-                        fontSize: '0.8rem'
+                        fontSize: '0.82rem',
+                        transition: 'all 0.15s ease'
                       }}
                     >
                       <div>
-                        <div style={{ fontWeight: 600 }}>{p.label}</div>
-                        <div style={{ fontSize: '0.7rem', color: '#64748b' }}>{p.desc}</div>
+                        <div style={{ fontWeight: 700 }}>{p.label}</div>
+                        <div style={{ fontSize: '0.72rem', color: user?.email === p.email ? 'rgba(255, 255, 255, 0.85)' : 'var(--text-muted)' }}>
+                          {p.desc}
+                        </div>
                       </div>
                     </button>
                   ))}
                 </div>
 
-                <div style={{ borderTop: '1px solid rgba(255, 255, 255, 0.06)', marginTop: '8px', paddingTop: '6px' }}>
+                <div style={{ borderTop: '1px solid rgba(180, 170, 160, 0.25)', marginTop: '10px', paddingTop: '8px' }}>
                   {user ? (
                     <button
                       onClick={() => {
@@ -303,15 +270,16 @@ export default function Navbar({
                         display: 'flex',
                         alignItems: 'center',
                         gap: '8px',
-                        padding: '8px 10px',
+                        padding: '8px 12px',
                         background: 'transparent',
                         border: 'none',
-                        color: '#fca5a5',
-                        fontSize: '0.8rem',
+                        color: '#dc2626',
+                        fontWeight: 700,
+                        fontSize: '0.85rem',
                         cursor: 'pointer'
                       }}
                     >
-                      <LogOut size={14} />
+                      <LogOut size={15} />
                       <span>Sign Out</span>
                     </button>
                   ) : (
@@ -321,7 +289,7 @@ export default function Navbar({
                         setShowRoleMenu(false);
                       }}
                       className="btn-primary"
-                      style={{ width: '100%', padding: '8px', fontSize: '0.85rem' }}
+                      style={{ width: '100%', padding: '9px', fontSize: '0.88rem' }}
                     >
                       Sign In / Register
                     </button>
